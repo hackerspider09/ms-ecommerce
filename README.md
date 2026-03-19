@@ -1,96 +1,71 @@
-# Microservice E-Commerce
+# Microservice E-Commerce — DevOps Starter (main branch)
 
-A full-stack, production-ready microservices e-commerce application. This project demonstrates real-world microservices architecture with a **DevOps-first** mindset.
-
-## 📁 Branches
-| Branch | Purpose |
-|--------|---------|
-| `fullcode` | ✅ **Complete working application** — all services coded and functional |
-| `main` | 🏗️ **DevOps Starter** — Service skeleton code, infrastructure files ready, business logic removed for practice |
-
-> 🎯 **Use `main` to practice**: Docker, Nginx, CI/CD, Kubernetes, monitoring. The infrastructure is set up for you — your job is to implement the service logic.
+> 🏗️ **This is the DevOps starter branch.**
+>
+> The **application source code is complete and working.** Your job as a DevOps engineer is to containerize, orchestrate, and deploy this system.
+>
+> ✅ Switch to `fullcode` branch to see the complete solution with all DevOps files included.
 
 ---
 
-## 🧩 Architecture
+## 🎯 Your Mission
 
-```
-Browser → Gateway (Nginx:80) → User Service (FastAPI:8000)
-                              → Product Service (Express:3001)  
-                              → Order Service (Spring Boot:8082)
-                              → Frontend (React:80)
-```
-
-### Services
-| Service | Tech | DB | Port |
-|---------|------|----|------|
-| Gateway | Nginx | - | 80 |
-| Frontend | React + Vite | - | 3000 |
-| User Service | Python (FastAPI) | PostgreSQL | 8000 |
-| Product Service | Node.js (Express) | MongoDB | 3001 |
-| Order Service | Java (Spring Boot) | PostgreSQL | 8082 |
-| Redis | Redis 7 | - | 6379 |
+| Task | What to Create |
+|------|----------------|
+| **Containerize** | Write a `Dockerfile` for each of the 4 services |
+| **Orchestrate locally** | Write a `docker-compose.yml` to run all services together |
+| **Gateway** | Set up an Nginx reverse proxy to route `/api/*` traffic |
+| **Deploy** | Write Kubernetes manifests in `infra/k8s/` |
+| **CI/CD** | Create GitHub Actions pipeline |
 
 ---
 
-## 🚀 Quick Start
+## 🧩 Services (Source Code Provided)
 
-### Prerequisites
-- Docker 24+
-- Docker Compose v2
-
-### Run the full app
-```bash
-# Clone and switch to the complete branch
-git clone <your-repo-url>
-git checkout fullcode
-
-# Start everything
-docker compose up --build
-
-# Visit: http://localhost
-```
-
-### Seed the product database
-```bash
-docker compose exec product-service npm run seed
-```
-
-### Run tests
-```bash
-# User Service
-docker compose exec user-service pytest
-
-# Product Service
-docker compose exec product-service npm test
-
-# Order Service
-docker compose exec order-service mvn test
-```
+| Service | Language | What It Does | Port |
+|---------|----------|--------------|------|
+| `user-service/` | Python 3.12 (FastAPI) | Auth, JWT, Register/Login | 8000 |
+| `product-service/` | Node.js 20 (Express) | Product CRUD, MongoDB | 3001 |
+| `order-service/` | Java 21 (Spring Boot) | Orders, calls Product Service | 8082 |
+| `frontend/` | React 18 (Vite) | UI, calls all services | 3000 |
 
 ---
 
-## 📖 Nginx Routing
-See [gateway/README.md](gateway/README.md) for a detailed explanation of how Nginx proxies requests and the difference between `proxy_pass http://host/` vs `http://host`.
+## 📋 Service Details
+
+### User Service (`user-service/`)
+- **Run locally**: `pip install -r requirements.txt && uvicorn main:app --reload`
+- **Database**: PostgreSQL (`DATABASE_URL` env var)
+- **Auth**: JWT (`SECRET_KEY`, `ALGORITHM` env vars)
+
+### Product Service (`product-service/`)
+- **Run locally**: `npm install && npm start`
+- **Database**: MongoDB (`MONGODB_URI` env var)
+
+### Order Service (`order-service/`)
+- **Run locally**: `./mvnw spring-boot:run`
+- **Database**: PostgreSQL
+- **Calls**: Product Service (`product.service.url` property)
+
+### Frontend (`frontend/`)
+- **Run locally**: `npm install && npm run dev`
+- **Expects**: All services proxied through `/api/*`
 
 ---
 
-## 📂 Project Structure
+## 🏗️ What DevOps Files Are Needed
+
 ```
-├── frontend/         React app (Vite)
-├── user-service/     Python FastAPI (JWT auth)
-├── product-service/  Node.js Express (product catalog)
-├── order-service/    Java Spring Boot (order management)
-├── gateway/          Nginx reverse proxy
-├── infra/
-│   └── k8s/         Kubernetes manifests
-└── docker-compose.yml
+├── user-service/Dockerfile
+├── product-service/Dockerfile
+├── order-service/Dockerfile
+├── frontend/Dockerfile
+├── docker-compose.yml        ← wire up all services + databases
+├── gateway/
+│   ├── Dockerfile
+│   └── nginx.conf            ← reverse proxy config
+└── infra/
+    └── k8s/                  ← k8s deployments, services, configmaps
 ```
 
----
-
-## 🌱 Future Improvements
-- [ ] Prometheus & Grafana monitoring
-- [ ] RabbitMQ/Kafka for async order processing
-- [ ] GitHub Actions CI/CD pipeline
-- [ ] Redis caching for product listings
+> 💡 Tip: Check the `fullcode` branch to see how it was done if you get stuck on a specific service.
