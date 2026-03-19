@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import AddProduct from './pages/AddProduct';
+import ProductDetail from './pages/ProductDetail';
 import Status from './pages/Status';
 import Orders from './pages/Orders';
 import './index.css';
@@ -24,6 +25,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/status" element={<Status />} />
+                <Route path="/products/:id" element={<ProductDetail />} />
                 <Route path="/add-product" element={<AddProduct />} />
                 <Route path="/orders" element={<Orders />} />
               </Routes>
