@@ -1,0 +1,78 @@
+services:
+  # Databases
+  user-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: userdb
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+
+  product-db:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: prasad123
+    volumes:
+      - product_db_data:/data/db
+
+  order-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: orderdb
+    volumes:
+      - order_db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7.2-alpine
+    ports:
+      - "6379:6379"
+
+  # Services
+  user-service:
+    build: ./user-service
+    depends_on:
+      - user-db
+    environment:
+      DATABASE_URL: postgresql://user:password@user-db:5432/userdb
+      SECRET_KEY: super-secret-key-12345
+      ALGORITHM: HS256
+      ACCESS_TOKEN_EXPIRE_MINUTES: 30
+
+  product-service:
+    build: ./product-service
+    depends_on:
+      - product-db
+    environment:
+      MONGODB_URI: mongodb://root:prasad123@product-db:27017/productdb?authSource=admin
+
+  order-service:
+    build: ./order-service
+    depends_on:
+      - order-db
+      - user-service
+      - product-service
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://order-db:5432/orderdb
+      PRODUCT_SERVICE_URL: http://product-service:3001
+
+  frontend:
+    build: ./frontend
+
+  gateway:
+    build: ./gateway
+    ports:
+      - "80:80"
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+      - frontend
+
+volumes:
+  user_db_data:
+  product_db_data:
+  order_db_data:
