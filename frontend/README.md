@@ -1,67 +1,40 @@
 # Frontend
 
-React e-commerce UI with product listing, cart, checkout, and infrastructure dashboard.
+React-based e-commerce storefront.
 
 ## Tech Stack
-| | |
-|-|-|
-| **Language** | JavaScript (ES2022) |
-| **Framework** | React 18, Vite 5 |
-| **Routing** | React Router v6 |
-| **HTTP Client** | Axios |
-| **Node Version** | 20 (LTS) |
+- **React 18**
+- **Vite 5**
+- **Axios**
+- **Node.js 20**
 
-## Pages
-
-| Route | Page | Description |
-|-------|------|-------------|
-| `/` | Home | Product grid + Add to Cart + Checkout |
-| `/signup` | Signup | Register a new account |
-| `/login` | Login | Login and set JWT |
-| `/orders` | My Orders | View past orders (auth required) |
-| `/add-product` | Add Product | Add a new product (auth required) |
-| `/status` | Infrastructure | Live service IPs and Redis status |
-
-## API Calls (via Nginx proxy)
-
-| Axios Instance | Base URL | Service |
-|----------------|----------|---------|
-| `userApi` | `/api/users` | User Service |
-| `productApi` | `/api/products` | Product Service |
-| `orderApi` | `/api/orders` | Order Service |
-
-> All API calls go through the Nginx gateway — no direct service URLs in the frontend code.
-
-## Run Locally (Dev Mode)
+## Run Locally (Development)
 ```bash
 npm install
 npm run dev
-# http://localhost:5173
 ```
-> In dev mode, Vite proxies `/api` calls to the gateway. In production, Nginx handles it.
+
+The development server runs on the default Vite port: **5173**.
+
+## Configuration
+The frontend uses environment variables (via Vite) to connect to backend services. You can set these in a `.env` file:
+
+```env
+VITE_USER_SERVICE_URL=http://localhost:8000
+VITE_PRODUCT_SERVICE_URL=http://localhost:3001
+VITE_ORDER_SERVICE_URL=http://localhost:8082
+```
 
 ## Build for Production
+To generate a production-ready build:
 ```bash
 npm run build
-# output in dist/
 ```
+The output will be in the `dist/` directory.
 
-## Dockerfile Requirements (for DevOps)
-Multi-stage build:
-
-**Stage 1 — Build:**
-- Base: `node:20-slim`
-- Run `npm install` then `npm run build`
-
-**Stage 2 — Serve:**
-- Base: `nginx:stable-alpine`
-- Copy `dist/` into `/usr/share/nginx/html`
-- Add a custom `nginx.conf` with SPA fallback:
-  ```nginx
-  location / {
-      try_files $uri $uri/ /index.html;
-  }
-  ```
-- Expose port `80`
-
-> The SPA fallback is **required** so that direct URL access (e.g. `http://localhost/status`) works correctly instead of returning 404.
+### Key Pages
+- `Home`: Product browsing and cart.
+- `Product Details`: Detailed product information.
+- `Checkout`: Order placement.
+- `Profile/Orders`: User session and history.
+- `Status`: System infrastructure overview.

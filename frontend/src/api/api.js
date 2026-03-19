@@ -1,17 +1,19 @@
 import axios from 'axios';
 
-const API_BASE_URL = '/api'; // Will be handled by Nginx proxy in production
+const USER_SERVICE_URL = import.meta.env.VITE_USER_SERVICE_URL || 'http://localhost:8000';
+const PRODUCT_SERVICE_URL = import.meta.env.VITE_PRODUCT_SERVICE_URL || 'http://localhost:3001';
+const ORDER_SERVICE_URL = import.meta.env.VITE_ORDER_SERVICE_URL || 'http://localhost:8082';
 
 export const userApi = axios.create({
-  baseURL: `${API_BASE_URL}/users`,
+  baseURL: `${USER_SERVICE_URL}/api`,
 });
 
 export const productApi = axios.create({
-  baseURL: `${API_BASE_URL}/products`,
+  baseURL: `${PRODUCT_SERVICE_URL}/api/products`,
 });
 
 export const orderApi = axios.create({
-  baseURL: `${API_BASE_URL}/orders`,
+  baseURL: `${ORDER_SERVICE_URL}/api/orders`,
 });
 
 // Add interceptor to include JWT token in requests

@@ -78,7 +78,7 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
-app.get('/health', (req, res) => {
+app.get('/api/products/health', (req, res) => {
   res.json({ status: 'healthy' });
 });
 

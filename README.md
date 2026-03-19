@@ -1,157 +1,104 @@
-# 🛒 Microservice E-Commerce — DevOps Starter
+# 🛒 Microservice E-Commerce
 
-> **Branch:** `main` — Application source code only. Your job as a DevOps Engineer is to write the containerization, orchestration, and deployment configuration.
->
-> **Need the complete solution?** → `git checkout fullcode`
+A microservices-based e-commerce platform featuring authentication, product management, and order processing.
 
 ---
 
-## 🧩 System Architecture
+## Architecture
 
-```
-Internet
-    │
-    ▼
-[Gateway — Nginx :80]
-    ├── /              → Frontend  (React)
-    ├── /api/users/    → User Service    (FastAPI   :8000)
-    ├── /api/products  → Product Service (Express   :3001)
-    └── /api/orders    → Order Service   (Spring Boot :8082)
-```
+This project consists of 4 main services:
 
-### Inter-Service Communication
-- **Order Service** calls **Product Service** at `http://product-service:3001` to fetch product prices when an order is placed.
+- **Frontend**: React-based user interface.
+- **User Service**: Python (FastAPI) service for authentication and user profiles.
+- **Product Service**: Node.js (Express) service for the product catalog.
+- **Order Service**: Java (Spring Boot) service for order management.
+
+### Service Overview
+The frontend communicates directly with each microservice using their respective ports. No central gateway is required for local development.
+
+- **User Service**: [http://localhost:8000/api](http://localhost:8000/api)
+- **Product Service**: [http://localhost:3001/api/products](http://localhost:3001/api/products)
+- **Order Service**: [http://localhost:8082/api/orders](http://localhost:8082/api/orders)
+- **Frontend**: [http://localhost:5173](http://localhost:5173) (Vite default)
 
 ---
 
-## 📦 Services & Dependencies
+## Services & Tech Stack
 
-### 1. User Service
-| Property | Value |
-|----------|-------|
-| **Language** | Python 3.12 |
-| **Framework** | FastAPI 0.110+ |
-| **Database** | PostgreSQL 16 |
-| **Cache** | Redis 7 |
-| **Port** | 8000 |
-| **DB Name** | `userdb` |
+| Service | Language | Runtime | Database | Port |
+|---------|----------|---------|----------|------|
+| [User Service](user-service/README.md) | Python | 3.12 | PostgreSQL 16 | 8000 |
+| [Product Service](product-service/README.md) | Node.js | 20 (LTS) | MongoDB 7 | 3001 |
+| [Order Service](order-service/README.md) | Java | 21 | PostgreSQL 16 | 8082 |
+| [Frontend](frontend/README.md) | JavaScript | Node 20 | — | 5173 |
 
-**Required Environment Variables:**
+### Shared Infrastructure
+- **Redis 7**: Used by User Service for session/cache status.
+
+---
+
+## Local Development Setup
+
+To run the full system locally, follow the [Running Order](#running-order) and ensure all [Environment Variables](#environment-variables) are set.
+
+### Running Order
+1. **Databases**: Start PostgreSQL (instances for User and Order), MongoDB, and Redis.
+2. **User Service**: Start after PostgreSQL and Redis are ready.
+3. **Product Service**: Start after MongoDB is ready.
+4. **Order Service**: Start after Product Service is ready (required for price fetching).
+5. **Frontend**: Run the development server (`npm run dev`).
+
+---
+
+## Environment Variables
+
+### User Service
 ```env
-DATABASE_URL=postgresql://user:password@user-db:5432/userdb
+DATABASE_URL=postgresql://user:password@localhost:5432/userdb
 SECRET_KEY=your-secret-key
 ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-REDIS_HOST=redis
+REDIS_HOST=localhost
+REDIS_PORT=6379
 ```
 
----
-
-### 2. Product Service
-| Property | Value |
-|----------|-------|
-| **Language** | Node.js 20 (LTS) |
-| **Framework** | Express 4.19 |
-| **Database** | MongoDB 7 |
-| **Port** | 3001 |
-
-**Required Environment Variables:**
+### Product Service
 ```env
-MONGODB_URI=mongodb://product-db:27017/productdb
+MONGODB_URI=mongodb://localhost:27017/productdb
 PORT=3001
 ```
 
----
-
-### 3. Order Service
-| Property | Value |
-|----------|-------|
-| **Language** | Java 21 |
-| **Framework** | Spring Boot 3.2.4 |
-| **Build Tool** | Maven 3.9 |
-| **Database** | PostgreSQL 16 |
-| **Port** | 8082 |
-| **DB Name** | `orderdb` |
-
-**Required Environment Variables (or `application.properties`):**
+### Order Service
 ```env
-SPRING_DATASOURCE_URL=jdbc:postgresql://order-db:5432/orderdb
+SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/orderdb
 SPRING_DATASOURCE_USERNAME=user
 SPRING_DATASOURCE_PASSWORD=password
-PRODUCT_SERVICE_URL=http://product-service:3001
+PRODUCT_SERVICE_URL=http://localhost:3001
+```
+
+### Frontend
+```env
+VITE_USER_SERVICE_URL=http://localhost:8000
+VITE_PRODUCT_SERVICE_URL=http://localhost:3001
+VITE_ORDER_SERVICE_URL=http://localhost:8082
 ```
 
 ---
 
-### 4. Frontend
-| Property | Value |
-|----------|-------|
-| **Language** | JavaScript (Node.js 20) |
-| **Framework** | React 18, Vite 5 |
-| **Port** | 80 (served via Nginx in production) |
+## Testing & Data
 
-> The frontend expects all API calls to go through a gateway at `/api/*`. Configure Nginx to proxy these.
+### Run Service Tests
+```bash
+# User Service
+cd user-service && pytest
 
----
+# Product Service
+cd product-service && npm test
 
-### 5. Gateway (Nginx)
-| Property | Value |
-|----------|-------|
-| **Image** | nginx:stable-alpine |
-| **Port** | 80 |
-
-**Routing Rules to Implement:**
-```
-/              → proxy to frontend:80
-/api/users/    → proxy to user-service:8000/ (strip prefix)
-/api/products  → proxy to product-service:3001 (pass full path)
-/api/orders    → proxy to order-service:8082  (pass full path)
+# Order Service
+cd order-service && ./mvnw test
 ```
 
-> See `fullcode` branch `gateway/README.md` for a full explanation of trailing slash behavior in Nginx proxy_pass.
-
----
-
-### 6. Redis
-| Property | Value |
-|----------|-------|
-| **Image** | redis:7-alpine |
-| **Port** | 6379 |
-
-Used by the User Service to verify cache connectivity (shown on the Infrastructure page).
-
----
-
-## 🗄️ Databases Summary
-
-| Database | Type | Port | Used By |
-|----------|------|------|---------|
-| `user-db` | PostgreSQL 16 | 5432 | User Service |
-| `product-db` | MongoDB 7 | 27017 | Product Service |
-| `order-db` | PostgreSQL 16 | 5432 | Order Service |
-| `redis` | Redis 7 | 6379 | User Service |
-
----
-
-## 🏗️ What You Need to Create
-
+### Seed Product Database
+```bash
+cd product-service && npm run seed
 ```
-├── user-service/Dockerfile      # Python 3.12 slim, pip install, uvicorn
-├── product-service/Dockerfile   # Node 20 slim, npm install
-├── order-service/Dockerfile     # Multi-stage: Maven build → JRE 21 run
-├── frontend/Dockerfile          # Multi-stage: Node build → Nginx serve
-├── docker-compose.yml           # Wire up all 8 containers + volumes + networks
-├── gateway/
-│   ├── Dockerfile               # FROM nginx:stable-alpine + copy conf
-│   └── nginx.conf               # Reverse proxy routing
-└── infra/k8s/                   # Kubernetes Deployments, Services, ConfigMaps
-```
-
----
-
-## 📚 Service READMEs
-Each service has its own README with running instructions, API endpoints, and test commands:
-- [User Service →](user-service/README.md)
-- [Product Service →](product-service/README.md)
-- [Order Service →](order-service/README.md)
-- [Frontend →](frontend/README.md)
