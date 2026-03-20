@@ -12,7 +12,7 @@ Spring Boot order processing service that communicates with the Product Service.
 - Service Name: Order Service
 - Default Port: `8082`
 - Base URL: `http://localhost:8082`
-- DB Name: orderdb
+- DB Name: `orderdb`
 
 ## Configuration
 All configurations can be set via environment variables or `src/main/resources/application.properties`:

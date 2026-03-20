@@ -13,7 +13,7 @@ FastAPI-based authentication and user management service.
 - Service Name: User Service
 - Default Port: `8000`
 - Base URL: `http://localhost:8000`
-- DB Name: userdb
+- DB Name: `userdb`
 
 ## Configuration
 All configurations are managed via environment variables:
@@ -71,6 +71,7 @@ curl -X POST http://localhost:8000/api/login \
 ```bash
 curl -X GET http://localhost:8000/api/profile \
   -H "Authorization: Bearer <your_jwt_token>"
+```
 
 ## Running Tests
 ```bash
