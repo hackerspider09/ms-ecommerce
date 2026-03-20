@@ -16,7 +16,7 @@ FastAPI-based authentication and user management service.
 
 ## Configuration
 All configurations are managed via environment variables:
-- `DATABASE_URL`: PostgreSQL connection string. `postgresql://<username>:<password>@<host>:<port>/<database>)`
+- `DATABASE_URL`: PostgreSQL connection string. `postgresql://<username>:<password>@<host>:<port>/<database>`
 - `REDIS_HOST`: Hostname for Redis connection.
 - `REDIS_PORT`: Port for Redis connection.
 - Optional
