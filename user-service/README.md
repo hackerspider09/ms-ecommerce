@@ -8,13 +8,20 @@ FastAPI-based authentication and user management service.
 - **PostgreSQL 16**
 - **Redis 7**
 
+## Service Details
+
+- Service Name: User Service
+- Default Port: `8000`
+- Base URL: `http://localhost:8000`
+
 ## Configuration
 All configurations are managed via environment variables:
-- `DATABASE_URL`: PostgreSQL connection string.
-- `SECRET_KEY`: JWT signing key.
-- `ALGORITHM`: JWT algorithm (e.g., HS256).
+- `DATABASE_URL`: PostgreSQL connection string. `postgresql://<username>:<password>@<host>:<port>/<database>`
 - `REDIS_HOST`: Hostname for Redis connection.
 - `REDIS_PORT`: Port for Redis connection.
+- Optional
+  - `SECRET_KEY`: JWT signing key.
+  - `ALGORITHM`: JWT algorithm (e.g., HS256).
 
 ## Run Locally
 ```bash
@@ -36,6 +43,15 @@ API Documentation: `http://localhost:8000/docs`
 
 ## Examples
 
+### Information
+```bash
+curl -X GET http://localhost:8000/api/info 
+```
+### Health
+```bash
+curl -X GET http://localhost:8000/api/health 
+```
+
 ### Register
 ```bash
 curl -X POST http://localhost:8000/api/register \
@@ -49,6 +65,11 @@ curl -X POST http://localhost:8000/api/login \
   -H "Content-Type: application/json" \
   -d '{"username":"devuser","password":"password123"}'
 ```
+
+### Profile
+```bash
+curl -X GET http://localhost:8000/api/profile \
+  -H "Authorization: Bearer <your_jwt_token>"
 
 ## Running Tests
 ```bash

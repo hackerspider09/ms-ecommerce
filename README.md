@@ -54,22 +54,22 @@ To run the full system locally, follow the [Running Order](#running-order) and e
 
 ### User Service
 ```env
-DATABASE_URL=postgresql://user:password@localhost:5432/userdb
-SECRET_KEY=your-secret-key
-ALGORITHM=HS256
+DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database>
 REDIS_HOST=localhost
 REDIS_PORT=6379
+Optional: 
+    SECRET_KEY=your-secret-key
+    ALGORITHM=HS256
 ```
 
 ### Product Service
 ```env
-MONGODB_URI=mongodb://localhost:27017/productdb
-PORT=3001
+MONGODB_URI=mongodb://<username>:<password>@<host>:<port>/<database>?authSource=admin
 ```
 
 ### Order Service
 ```env
-SPRING_DATASOURCE_URL=jdbc:postgresql://localhost:5432/orderdb
+SPRING_DATASOURCE_URL=jdbc:postgresql://<host>:<port>/<database>
 SPRING_DATASOURCE_USERNAME=user
 SPRING_DATASOURCE_PASSWORD=password
 PRODUCT_SERVICE_URL=http://localhost:3001

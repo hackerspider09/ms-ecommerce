@@ -14,7 +14,11 @@ npm install
 npm run dev
 ```
 
-The development server runs on the default Vite port: **5173**.
+## Service Details
+
+- Service Name: Frontend
+- Default Port: `5173`
+- Base URL: `http://localhost:5173`
 
 ## Configuration
 The frontend uses environment variables (via Vite) to connect to backend services. You can set these in a `.env` file:
