@@ -39,7 +39,7 @@ The frontend communicates directly with each microservice using their respective
 
 ## Local Development Setup
 
-To run the full system locally, follow the [Running Order](#running-order) and ensure all [Environment Variables](#environment-variables) are set.
+To run the full system locally, follow the [Running Order](#running-order) and ensure essential [Environment Variables](#environment-variables) are set.
 
 ### Running Order
 1. **Databases**: Start PostgreSQL (instances for User and Order), MongoDB, and Redis.
@@ -55,16 +55,16 @@ To run the full system locally, follow the [Running Order](#running-order) and e
 ### User Service
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/userdb
-SECRET_KEY=your-secret-key
-ALGORITHM=HS256
 REDIS_HOST=localhost
 REDIS_PORT=6379
+Optional:
+  SECRET_KEY=your-secret-key
+  ALGORITHM=HS256
 ```
 
 ### Product Service
 ```env
 MONGODB_URI=mongodb://localhost:27017/productdb
-PORT=3001
 ```
 
 ### Order Service

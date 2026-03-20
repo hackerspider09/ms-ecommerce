@@ -8,6 +8,12 @@ FastAPI-based authentication and user management service.
 - **PostgreSQL 16**
 - **Redis 7**
 
+## Service Details
+
+- Service Name: User Service
+- Default Port: `8000`
+- Base URL: `http://localhost:8000`
+
 ## Configuration
 All configurations are managed via environment variables:
 - `DATABASE_URL`: PostgreSQL connection string. `postgresql://<username>:<password>@<host>:<port>/<database>)`

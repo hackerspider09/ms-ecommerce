@@ -14,6 +14,12 @@ npm install
 npm run dev
 ```
 
+## Service Details
+
+- Service Name: Frontend
+- Default Port: `5173`
+- Base URL: `http://localhost:5173`
+
 The development server runs on the default Vite port: **5173**.
 
 ## Configuration

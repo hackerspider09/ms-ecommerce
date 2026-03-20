@@ -7,11 +7,15 @@ Express.js product catalog service with MongoDB integration.
 - **Express 4.19**
 - **MongoDB 7**
 
+## Service Details
+
+- Service Name: Product Service
+- Default Port: `3001`
+- Base URL: `http://localhost:3001`
+
 ## Configuration
 All configurations are managed via environment variables:
 - `MONGODB_URI`: MongoDB connection string. `mongodb://<username>:<password>@<host>:<port>/<database>?authSource=admin)`
-- Optional
-  - `PORT`: Port for the server (default: 3001).
 
 ## Run Locally
 ```bash
