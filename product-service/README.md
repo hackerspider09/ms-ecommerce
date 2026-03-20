@@ -15,7 +15,7 @@ Express.js product catalog service with MongoDB integration.
 
 ## Configuration
 All configurations are managed via environment variables:
-- `MONGODB_URI`: MongoDB connection string. `mongodb://<username>:<password>@<host>:<port>/<database>?authSource=admin)`
+- `MONGODB_URI`: MongoDB connection string. `mongodb://<username>:<password>@<host>:<port>/<database>?authSource=admin`
 
 ## Run Locally
 ```bash
@@ -41,15 +41,16 @@ For development with hot reload: `npm run dev`
 npm run seed
 ```
 ## Examples
-### Health
-```bash
-curl -X GET http://localhost:3001/api/products/health
-```
+
 ### Information
 ```bash
 curl -X GET http://localhost:3001/api/products/info 
 ```
 
+### Health
+```bash
+curl -X GET http://localhost:3001/api/products/health
+```
 
 ### Get products
 ```bash
