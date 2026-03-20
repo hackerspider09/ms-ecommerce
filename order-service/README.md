@@ -15,8 +15,7 @@ Spring Boot order processing service that communicates with the Product Service.
 
 ## Configuration
 All configurations can be set via environment variables or `src/main/resources/application.properties`:
-- `SPRING_DATASOURCE_URL`: PostgreSQL connection string. `jdbc:postgresql://<host>:<port>/<database>
-`
+- `SPRING_DATASOURCE_URL`: PostgreSQL connection string. `jdbc:postgresql://<host>:<port>/<database>`
 - `SPRING_DATASOURCE_USERNAME`: Database username.
 - `SPRING_DATASOURCE_PASSWORD`: Database password.
 - `PRODUCT_SERVICE_URL`: URL of the Product Service (e.g., http://localhost:3001).
