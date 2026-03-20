@@ -12,6 +12,7 @@ Express.js product catalog service with MongoDB integration.
 - Service Name: Product Service
 - Default Port: `3001`
 - Base URL: `http://localhost:3001`
+- DB Name: productdb
 
 ## Configuration
 All configurations are managed via environment variables:

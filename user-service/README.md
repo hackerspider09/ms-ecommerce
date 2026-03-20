@@ -13,6 +13,7 @@ FastAPI-based authentication and user management service.
 - Service Name: User Service
 - Default Port: `8000`
 - Base URL: `http://localhost:8000`
+- DB Name: userdb
 
 ## Configuration
 All configurations are managed via environment variables:
