@@ -82,6 +82,38 @@ VITE_PRODUCT_SERVICE_URL=http://localhost:3001
 VITE_ORDER_SERVICE_URL=http://localhost:8082
 ```
 
+
+## PostgreSQL Note (Docker)
+- Postgres only creates the database on first initialization.
+- If the container (or volume) already existed before, then:
+  - POSTGRES_DB=userdb is ignored
+  - Existing data is reused
+  - So your new DB is not created
+
+**Connection string format:**
+
+```bash
+postgresql://[user]:[password]@[host]:[port]/[dbname]
+```
+
+**Notes:**
+
+* If containers are on the **same Docker network** → use **container name as host**
+* If running with normal `docker run` and different networks → use **host machine IP / `host.docker.internal`**
+* ❌ Do NOT use `0.0.0.0` or `localhost` inside containers
+
+**Examples:**
+
+```bash
+# same network
+postgresql://postgres:password@postgres-db:5432/mydb
+
+# from container to host
+postgresql://postgres:password@10.166.218.139:5432/mydb
+```
+
+
+
 ---
 
 ## Testing & Data

@@ -9,11 +9,13 @@ Spring Boot order processing service that communicates with the Product Service.
 
 ## Configuration
 All configurations can be set via environment variables or `src/main/resources/application.properties`:
-- `SPRING_DATASOURCE_URL`: PostgreSQL connection string.
+- `SPRING_DATASOURCE_URL`: PostgreSQL connection string. `jdbc:postgresql://<host>:<port>/<database>
+`
 - `SPRING_DATASOURCE_USERNAME`: Database username.
 - `SPRING_DATASOURCE_PASSWORD`: Database password.
-- `SERVER_PORT`: Port for the server (default: 8082).
 - `PRODUCT_SERVICE_URL`: URL of the Product Service (e.g., http://localhost:3001).
+- Optional:
+    - `SERVER_PORT`: Port for the server (default: 8082).
 
 ## Run Locally
 ```bash
@@ -30,12 +32,14 @@ All configurations can be set via environment variables or `src/main/resources/a
 | `GET` | `/api/orders/health` | Service health check |
 
 ## Examples
-
-### Place Order
+### Health
 ```bash
-curl -X POST http://localhost:8082/api/orders \
-  -H "Content-Type: application/json" \
-  -d '{"userId":1,"orderItems":[{"productId":"<mongo_id>","quantity":2}]}'
+curl -X GET http://localhost:8082/api/orders/health 
+```
+
+### Information
+```bash
+curl -X POST http://localhost:8082/api/orders/info 
 ```
 
 ## Running Tests

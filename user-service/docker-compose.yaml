@@ -1,0 +1,34 @@
+
+
+services:
+  user-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "userdb"
+    ports:
+      - 5432
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d userdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+    # volumes:
+    #   - pgdata:/var/lib/postgresql/data
+
+  user-service:
+    build: .
+    environment:
+      DATABASE_URL: "postgresql://adin:admin@user-db:5432/userdb"
+    ports:
+      - "8000:8000"
+    depends_on:
+      user-db:
+        condition: service_healthy
+    
+# volumes:
+#   pgdata:

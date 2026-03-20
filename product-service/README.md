@@ -9,8 +9,9 @@ Express.js product catalog service with MongoDB integration.
 
 ## Configuration
 All configurations are managed via environment variables:
-- `MONGODB_URI`: MongoDB connection string.
-- `PORT`: Port for the server (default: 3001).
+- `MONGODB_URI`: MongoDB connection string. `mongodb://<username>:<password>@<host>:<port>/<database>?authSource=admin)`
+- Optional
+  - `PORT`: Port for the server (default: 3001).
 
 ## Run Locally
 ```bash
@@ -31,10 +32,33 @@ For development with hot reload: `npm run dev`
 | `GET` | `/api/products/info` | Get service hostname and IP |
 | `GET` | `/api/products/health` | Service health check |
 
-## Seeding Sample Data
+## Seeding Sample Data to insert products (run inside of container)
 ```bash
 npm run seed
 ```
+## Examples
+### Health
+```bash
+curl -X GET http://localhost:3001/api/products/health
+```
+### Information
+```bash
+curl -X GET http://localhost:3001/api/products/info 
+```
+
+
+### Get products
+```bash
+curl -X GET http://localhost:3001/api/products \
+  -H "Content-Type: application/json"
+```
+### Get specific product
+```bash
+curl -X GET http://localhost:3001/api/products/<id_get_from_above_product_list> \
+  -H "Content-Type: application/json"
+```
+
+
 
 ## Running Tests
 ```bash

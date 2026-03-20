@@ -14,15 +14,6 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-app.get('/api/products', async (req, res) => {
-  try {
-    const products = await Product.find();
-    res.json(products);
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
-});
-
 app.get('/api/products/info', (req, res) => {
   const os = require('os');
   const nets = os.networkInterfaces();
@@ -36,6 +27,20 @@ app.get('/api/products/info', (req, res) => {
     }
   }
   res.json({ service: "Product Service", hostname: os.hostname(), ip });
+});
+
+// It should above get product/:id
+app.get('/api/products/health', (req, res) => {
+  res.json({ status: 'healthy' });
+});
+
+app.get('/api/products', async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 app.get('/api/products/:id', async (req, res) => {
@@ -68,6 +73,7 @@ app.put('/api/products/:id', async (req, res) => {
   }
 });
 
+
 app.delete('/api/products/:id', async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
@@ -78,9 +84,6 @@ app.delete('/api/products/:id', async (req, res) => {
   }
 });
 
-app.get('/api/products/health', (req, res) => {
-  res.json({ status: 'healthy' });
-});
 
 app.listen(PORT, () => {
   console.log(`Product Service running on port ${PORT}`);
