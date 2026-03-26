@@ -44,4 +44,5 @@ jobs:
     with:
       branch_name: ${{ needs.setup.outputs.branch_name }}
       service_lang: ${{ needs.setup.outputs.language }}
+      dir_name: ${{ needs.setup.outputs.dir_name }}
 
