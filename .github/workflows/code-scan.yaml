@@ -18,19 +18,21 @@ on:
         
     
 jobs:
+    
   code-scan:
     # perform sast and sca
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: ${{ inputs.dir_name }}
+        
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           ref: ${{ inputs.branch_name }}
-
-      - name: Change dir to application
-        run: cd ${{ inputs.dir_name }}
       
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
