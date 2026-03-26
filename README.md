@@ -39,7 +39,7 @@ The frontend communicates directly with each microservice using their respective
 
 ## Local Development Setup
 
-To run the full system locally, follow the [Running Order](#running-order) and ensure all [Environment Variables](#environment-variables) are set.
+To run the full system locally, follow the [Running Order](#running-order) and ensure essential [Environment Variables](#environment-variables) are set.
 
 ### Running Order
 1. **Databases**: Start PostgreSQL (instances for User and Order), MongoDB, and Redis.
@@ -54,17 +54,17 @@ To run the full system locally, follow the [Running Order](#running-order) and e
 
 ### User Service
 ```env
-DATABASE_URL=postgresql://<username>:<password>@<host>:<port>/<database>
+DATABASE_URL=postgresql://user:password@localhost:5432/userdb
 REDIS_HOST=localhost
 REDIS_PORT=6379
-Optional: 
-    SECRET_KEY=your-secret-key
-    ALGORITHM=HS256
+Optional:
+  SECRET_KEY=your-secret-key
+  ALGORITHM=HS256
 ```
 
 ### Product Service
 ```env
-MONGODB_URI=mongodb://<username>:<password>@<host>:<port>/<database>?authSource=admin
+MONGODB_URI=mongodb://localhost:27017/productdb
 ```
 
 ### Order Service
@@ -81,6 +81,38 @@ VITE_USER_SERVICE_URL=http://localhost:8000
 VITE_PRODUCT_SERVICE_URL=http://localhost:3001
 VITE_ORDER_SERVICE_URL=http://localhost:8082
 ```
+
+
+## PostgreSQL Note (Docker)
+- Postgres only creates the database on first initialization.
+- If the container (or volume) already existed before, then:
+  - POSTGRES_DB=userdb is ignored
+  - Existing data is reused
+  - So your new DB is not created
+
+**Connection string format:**
+
+```bash
+postgresql://[user]:[password]@[host]:[port]/[dbname]
+```
+
+**Notes:**
+
+* If containers are on the **same Docker network** → use **container name as host**
+* If running with normal `docker run` and different networks → use **host machine IP / `host.docker.internal`**
+* ❌ Do NOT use `0.0.0.0` or `localhost` inside containers
+
+**Examples:**
+
+```bash
+# same network
+postgresql://postgres:password@postgres-db:5432/mydb
+
+# from container to host
+postgresql://postgres:password@10.166.218.139:5432/mydb
+```
+
+
 
 ---
 

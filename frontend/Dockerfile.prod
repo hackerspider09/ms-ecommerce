@@ -1,0 +1,31 @@
+# This stage will use to make react artifact and later serve by nginx
+FROM node:20-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json .
+
+RUN npm install
+
+COPY . .
+
+EXPOSE 5173
+
+RUN npm run build 
+
+# Added for debug
+# CMD [ "npm", "run", "dev",  "--", "--host"]
+
+# Final stage 
+FROM nginx:alpine
+
+# npm run build store static files (html, css, js) in build dir
+# to serve them by nginx move those files to /usr/share/nginx/html
+
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+EXPOSE 80
+
+# This make nginx to run in foreground as by default nginx runs in background and if parent process ends container will stop 
+# so make nginx as foreground process so it will become main process
+CMD ["nginx", "-g", "daemon off;"]

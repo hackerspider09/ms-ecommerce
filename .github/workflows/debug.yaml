@@ -1,0 +1,17 @@
+name: Debug workflow
+
+on: 
+  workflow_call:
+    inputs:
+      message:
+        description: print this message 
+        required: true
+        type: string
+jobs:
+  printMessage:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: print message
+        run: echo "${{inputs.message}}"
+        

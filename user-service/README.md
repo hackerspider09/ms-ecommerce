@@ -13,11 +13,10 @@ FastAPI-based authentication and user management service.
 - Service Name: User Service
 - Default Port: `8000`
 - Base URL: `http://localhost:8000`
-- DB Name: `userdb`
 
 ## Configuration
 All configurations are managed via environment variables:
-- `DATABASE_URL`: PostgreSQL connection string. `postgresql://<username>:<password>@<host>:<port>/<database>`
+- `DATABASE_URL`: PostgreSQL connection string. `postgresql://<username>:<password>@<host>:<port>/<database>)`
 - `REDIS_HOST`: Hostname for Redis connection.
 - `REDIS_PORT`: Port for Redis connection.
 - Optional
@@ -29,7 +28,6 @@ All configurations are managed via environment variables:
 pip install -r requirements.txt
 uvicorn main:app --reload --port 8000
 ```
-API Documentation: `http://localhost:8000/docs`
 
 ## API Endpoints (Prefix: `/api`)
 

@@ -1,0 +1,39 @@
+
+services:
+  product-db:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_ROOT_USERNAME: admin 
+      MONGO_INITDB_DATABASE: productdb
+
+    ports:
+      - 27017
+
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+    
+  product-service:
+    build: .
+    environment:
+      MONGODB_URI: "mongodb://admin:admin@product-db:27017/productdb?authSource=admin"
+    ports:
+      - "3001:3001"
+    depends_on:
+      product-db: 
+        condition: service_healthy
+    
+  seed-service:
+    build: .
+    environment:
+      MONGODB_URI: "mongodb://admin:admin@product-db:27017/productdb?authSource=admin"
+
+    depends_on:
+      product-db: 
+        condition: service_healthy
+    command: ["npm", "run", "seed"]
