@@ -2,10 +2,37 @@ name: Code quality check
 
 on:
   workflow_call:
+    inputs:
+      branch_name:
+        description: Use to checkout to specific branch
+        type: string
+        default: main
+      service_lang:
+          description: Language of application/service to setup for scans
+          type: string
+          required: true
+        
     
 jobs:
-  debug:
+  code-scan:
+    # perform sast and sca
     runs-on: ubuntu-latest
+
     steps:
-      - name: print task
-        run: echo "Code quality check"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{inputs.branch_name}}
+      
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v4
+        with:
+          languages: ${{inputs.service_lang}}
+
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v4
+
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v4
+        
