@@ -1,0 +1,11 @@
+name: Build, scan and push artifact
+
+on:
+  workflow_call:
+    
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print task
+        run: echo "Build scan and push"

@@ -4,6 +4,7 @@ env:
   dir_name: 'frontend'
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - cicd

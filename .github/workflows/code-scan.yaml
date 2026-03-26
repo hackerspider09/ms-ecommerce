@@ -1,0 +1,11 @@
+name: Code quality check
+
+on:
+  workflow_call:
+    
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print task
+        run: echo "Code quality check"
