@@ -1,0 +1,23 @@
+name: 01 Frontend workflow
+
+env:
+  dir_name: 'frontend'
+
+on:
+  push:
+    branches:
+      - cicd
+    paths:
+      - '$dir_name/**'
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: print dir name
+        run: echo "$dir_name" 
+  # secret-scan:
+  #   uses: ./.github/workflows/secrets-scan.yaml
+  #   with:
+  #     branch_name: 'cicd'
+  #     dir_name: 'frontend'
