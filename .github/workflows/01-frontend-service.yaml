@@ -11,25 +11,37 @@ on:
           
 
 env:
-  dir_name: 'frontend'
-  branch_name: 'main'
-  language: 'javascript'
+  dir_name: "frontend"
+  branch_name: "main"
+  language: "javascript"
 
 jobs:
+  setup:
+    # This is used to set env variable to access in reusable jobs
+    # as env context is not inside with
+    runs-on: ubuntu-latest
+    outputs:
+      dir_name: ${{env.dir_name}}
+      branch_name: ${{env.branch_name}}
+      language: ${{env.language}}
+    steps:
+      - run: echo "Setup completed..."
+
   debug:
     uses: ./.github/workflows/debug.yaml
     with:
       message: "Frontend workflow running"
 
-
   secret-scan:
+    needs: setup
     uses: ./.github/workflows/secrets-scan.yaml
     with:
-      branch_name: 'main'
+      branch_name: ${{ needs.setup.outputs.branch_name }}
 
   code-quality:
+    needs: setup
     uses: ./.github/workflows/code-scan.yaml
     with:
-      branch_name: ${{ env.branch_name }}
-      service_lang: ${{ env.language }}
+      branch_name: ${{ needs.setup.outputs.branch_name }}
+      service_lang: ${{ needs.setup.outputs.language }}
 
