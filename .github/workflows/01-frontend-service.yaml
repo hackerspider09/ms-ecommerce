@@ -9,14 +9,13 @@ on:
     branches:
       - cicd
     paths:
-      - '$dir_name/**'
+      - 'frontend/**'
 
 jobs:
   debug:
-    runs-on: ubuntu-latest
-    steps:
-      - name: print dir name
-        run: echo "$dir_name" 
+    uses: ./.github/workflows/debug.yaml
+     
+
   # secret-scan:
   #   uses: ./.github/workflows/secrets-scan.yaml
   #   with:
