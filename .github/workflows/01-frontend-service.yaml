@@ -15,6 +15,10 @@ env:
   branch_name: "main"
   language: "javascript"
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   setup:
     # This is used to set env variable to access in reusable jobs
