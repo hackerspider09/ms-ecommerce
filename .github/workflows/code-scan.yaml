@@ -50,7 +50,10 @@ jobs:
       #  for java debug
       - name: Build with Maven (debug mode)
         run: |
-          mvn clean package -X
+          java --version
+          pwd
+          ls
+          mvn clean package
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
