@@ -15,6 +15,10 @@ on:
         description: Dir of code
         type: string
         required: true
+      lang_version:
+        description: Language version needs to setup env
+        type: string
+        required: true
         
     
 jobs:
@@ -35,7 +39,14 @@ jobs:
         with:
           fetch-depth: 0
           ref: ${{ inputs.branch_name }}
-      
+
+
+      - name: Setup runtime
+        uses: ./.github/actions/setup-runtime
+        with:
+          language: ${{ inputs.service_lang }}
+          version: ${{ inputs.lang_version }}
+            
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:

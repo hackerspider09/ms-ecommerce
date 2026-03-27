@@ -15,6 +15,7 @@ env:
   branch_name: "main"
   language: "java"
   image_name: "ecom-orderservice"
+  lang_version: "21"
 
 permissions:
   # permission added for codeql security scan
@@ -31,6 +32,7 @@ jobs:
       dir_name: ${{env.dir_name}}
       branch_name: ${{env.branch_name}}
       language: ${{env.language}}
+      lang_version: ${{env.lang_version}}
       image_name: ${{env.image_name}}
       dockerfile_name: ${{env.dockerfile_name}}
     steps:
@@ -50,6 +52,7 @@ jobs:
       branch_name: ${{ needs.setup.outputs.branch_name }}
       service_lang: ${{ needs.setup.outputs.language }}
       dir_name: ${{ needs.setup.outputs.dir_name }}
+      lang_version: ${{needs.setup.outputs.lang_version}}
 
   build-scan:
     needs: ["setup", "code-quality"]
