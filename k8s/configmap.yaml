@@ -1,0 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+
+metadata:
+  name: ecom-configmap
+  labels:
+    app: configmap 
+    tier: env
+
+data:
+  userservice_db_url: postgresql://admin:admin@userdb-0.userdb-svc:5432/userdb

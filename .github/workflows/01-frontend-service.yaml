@@ -15,7 +15,7 @@ env:
   branch_name: "main"
   language: "javascript"
   image_name: "ecom-frontend"
-  dockerfile_name: "Dockerfile.prod"
+  dockerfile_name: "Dockerfile.dev"
   lang_version: "20"
   
 permissions:

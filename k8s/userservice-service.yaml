@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: userservice-service
+  namespace: ms-ecom-application
+  labels:
+    app: user-service
+    tier: backend
+
+spec:
+  selector:
+    app: user-service
+    tier: backend
+
+  type: ClusterIP
+  ports:
+    - port: 8000
+      targetPort: 8000

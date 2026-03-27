@@ -1,0 +1,33 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: userservice-deployment
+  namespace: ms-ecom-application
+  labels:
+    app: user-service
+    tier: backend
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: user-service
+      tier: backend
+
+  template:
+    metadata:
+      name: userservice-pod
+      labels:
+        app: user-service
+        tier: backend
+
+    spec:
+      containers:
+        - name: user-service
+          image: hackerspider09/ecom-userservice
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://admin:admin@userdb-st-0.userdb-service:5432/userdb"
