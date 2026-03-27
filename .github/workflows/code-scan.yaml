@@ -38,6 +38,9 @@ jobs:
         uses: github/codeql-action/init@v4
         with:
           languages: ${{ inputs.service_lang }}
+          config: |
+            paths: 
+              - ${{ inputs.dir_name }}
 
       - name: Autobuild
         uses: github/codeql-action/autobuild@v4
@@ -66,5 +69,5 @@ jobs:
           exit-code: '1'
           severity: 'CRITICAL'  # can add multiple by comma seperated in same string ' x,y,z'
           scan-type: 'fs'  # dcan the filesystem
-          scan-ref: '.' # scan crnt dir
-          
+          scan-ref: ${{ inputs.dir_name }} # scan in specified dir
+
