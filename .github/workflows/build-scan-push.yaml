@@ -15,6 +15,10 @@ on:
         description: Dir of code
         type: string
         required: true
+      dockerfile_name:
+        description: Docker file name
+        type: string
+        default: Dockerfile
       image_name:
         description: Image name for application to push
         type: string
@@ -37,6 +41,7 @@ jobs:
       - name: Build docker image
         uses: docker/build-push-action@v7
         with:
+          file: ${{ inputs.dockerfile_name }}
           push: false
           tags: |
             "${{ vars.DOCKERHUB_USERNAME }}/${{ inputs.image_name }}:${{ github.sha }}"

@@ -15,6 +15,7 @@ env:
   branch_name: "main"
   language: "javascript"
   image_name: "ecom-frontend"
+  dockerfile_name: "Dockerfile.prod"
 
 permissions:
   # permission added for codeql security scan
@@ -31,13 +32,10 @@ jobs:
       branch_name: ${{env.branch_name}}
       language: ${{env.language}}
       image_name: ${{env.image_name}}
+      dockerfile_name: ${{env.dockerfile_name}}
     steps:
       - run: echo "Setup completed..."
 
-  debug:
-    uses: ./.github/workflows/debug.yaml
-    with:
-      message: "Frontend workflow running"
 
   secret-scan:
     needs: setup
@@ -45,22 +43,23 @@ jobs:
     with:
       branch_name: ${{ needs.setup.outputs.branch_name }}
 
-  code-quality:
-    needs: setup
-    uses: ./.github/workflows/code-scan.yaml
-    with:
-      branch_name: ${{ needs.setup.outputs.branch_name }}
-      service_lang: ${{ needs.setup.outputs.language }}
-      dir_name: ${{ needs.setup.outputs.dir_name }}
+  # code-quality:
+  #   needs: setup
+  #   uses: ./.github/workflows/code-scan.yaml
+  #   with:
+  #     branch_name: ${{ needs.setup.outputs.branch_name }}
+  #     service_lang: ${{ needs.setup.outputs.language }}
+  #     dir_name: ${{ needs.setup.outputs.dir_name }}
 
   build-scan:
-    needs: setup
+    # needs: code-quality
     uses: ./.github/workflows/build-scan-push.yaml
     with:
       branch_name: ${{ needs.setup.outputs.branch_name }}
       service_lang: ${{ needs.setup.outputs.language }}
       dir_name: ${{ needs.setup.outputs.dir_name }}
       image_name: ${{ needs.setup.outputs.image_name }}
+      dockerfile_name: ${{ needs.setup.outputs.dockerfile_name }}
 
     secrets: inherit
 
