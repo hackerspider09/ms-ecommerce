@@ -52,7 +52,7 @@ jobs:
   #     dir_name: ${{ needs.setup.outputs.dir_name }}
 
   build-scan:
-    # needs: code-quality
+    needs: setup
     uses: ./.github/workflows/build-scan-push.yaml
     with:
       branch_name: ${{ needs.setup.outputs.branch_name }}
