@@ -1,4 +1,4 @@
-name: 01 Frontend workflow
+name: 02 User Service workflow
 
 on:
   workflow_dispatch:
@@ -7,15 +7,14 @@ on:
       - main
       - cicd
     paths:
-      - 'frontend/**'
+      - 'user-service/**'
           
 
 env:
-  dir_name: "frontend"
+  dir_name: "user-service"
   branch_name: "main"
-  language: "javascript"
-  image_name: "ecom-frontend"
-  dockerfile_name: "Dockerfile.prod"
+  language: "python"
+  image_name: "ecom-userservice"
 
 permissions:
   # permission added for codeql security scan
@@ -60,7 +59,6 @@ jobs:
       service_lang: ${{ needs.setup.outputs.language }}
       dir_name: ${{ needs.setup.outputs.dir_name }}
       image_name: ${{ needs.setup.outputs.image_name }}
-      dockerfile_name: ${{ needs.setup.outputs.dockerfile_name }}
 
     secrets: inherit
 
