@@ -59,7 +59,7 @@ jobs:
         uses: github/codeql-action/autobuild@v4
 
       # #  for java debug
-      # - name: Build with Maven (debug mode)
+      # - name: Build with maven
       #   run: |
       #     mvn clean package -DskipTests
 

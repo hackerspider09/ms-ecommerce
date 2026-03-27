@@ -15,6 +15,7 @@ env:
   branch_name: "main"
   language: "python"
   image_name: "ecom-userservice"
+  lang_version: "3.12"
 
 permissions:
   # permission added for codeql security scan
@@ -32,6 +33,7 @@ jobs:
       branch_name: ${{env.branch_name}}
       language: ${{env.language}}
       image_name: ${{env.image_name}}
+      lang_version: ${{env.lang_version}}
       dockerfile_name: ${{env.dockerfile_name}}
     steps:
       - run: echo "Setup completed..."
@@ -50,6 +52,7 @@ jobs:
       branch_name: ${{ needs.setup.outputs.branch_name }}
       service_lang: ${{ needs.setup.outputs.language }}
       dir_name: ${{ needs.setup.outputs.dir_name }}
+      lang_version: ${{needs.setup.outputs.lang_version}}
 
   build-scan:
     needs: ["setup", "code-quality"]
