@@ -21,10 +21,36 @@ All configurations can be set via environment variables or `src/main/resources/a
 - `SPRING_DATASOURCE_PASSWORD`: Database password.
 - `PRODUCT_SERVICE_URL`: URL of the Product Service (e.g., http://localhost:3001).
 
-## Run Locally
+## 🛠️ Build & Run
+
+### 🔹 Run Application (Development Mode)
+
 ```bash
 ./mvnw spring-boot:run
 ```
+
+Or if Maven is installed globally:
+
+```bash
+mvn spring-boot:run
+```
+
+---
+
+### 🔹 Build (Package JAR)
+
+```bash
+./mvnw clean package -DskipTests
+```
+
+---
+
+### 🔹 Run Packaged Application
+
+```bash
+java -jar target/*.jar
+```
+
 
 ## API Endpoints (Prefix: `/api/orders`)
 

@@ -1,0 +1,118 @@
+
+services:
+  frontend:
+    image: hackerspider09/ecom-frontend:latest
+    
+    ports:
+      - "80:80"
+
+    environment:
+      VITE_USER_SERVICE_URL: http://user-service:8000
+      VITE_PRODUCT_SERVICE_URL: http://product-service:3001
+      VITE_ORDER_SERVICE_URL: http://order-service:8082
+
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+
+  # Databases
+  user-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: "admin"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "userdb"
+    ports:
+      - 5432
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d userdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+  
+  product-db:
+    image: mongo:7.0
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_ROOT_USERNAME: admin 
+      MONGO_INITDB_DATABASE: productdb
+
+    ports:
+      - 27017
+
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  order-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: orderdb
+    ports:
+      - 5432
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d orderdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  redis:
+    image: redis:alpine
+    ports:
+      - 6379
+
+  # Services 
+  user-service:
+    image: hackerspider09/ecom-userservice:latest
+    environment:
+      DATABASE_URL: "postgresql://admin:admin@user-db:5432/userdb"
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "8000:8000"
+    depends_on:
+      user-db:
+        condition: service_healthy
+  product-service:
+    image: hackerspider09/ecom-productservice:latest
+    environment:
+      MONGODB_URI: "mongodb://admin:admin@product-db:27017/productdb?authSource=admin"
+    ports:
+      - "3001:3001"
+    depends_on:
+      product-db: 
+        condition: service_healthy
+    
+  seed-service:
+    image: hackerspider09/ecom-productservice:latest
+    environment:
+      MONGODB_URI: "mongodb://admin:admin@product-db:27017/productdb?authSource=admin"
+
+    depends_on:
+      product-db: 
+        condition: service_healthy
+    command: ["npm", "run", "seed"]
+
+  order-service:
+    bimage: hackerspider09/ecom-orderservice:latest
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://order-db:5432/orderdb" 
+      SPRING_DATASOURCE_USERNAME: admin 
+      SPRING_DATASOURCE_PASSWORD: admin
+      PRODUCT_SERVICE_URL: "http://product-service:3001"
+    ports:
+      - "8082:8082"
+
+    depends_on:
+      order-db: 
+        condition: service_healthy
