@@ -1,0 +1,64 @@
+name: 04 Order Service workflow
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+      - cicd
+    paths:
+      - 'order-service/**'
+          
+
+env:
+  dir_name: "order-service"
+  branch_name: "main"
+  language: "java"
+  image_name: "ecom-orderservice"
+
+permissions:
+  # permission added for codeql security scan
+  contents: read
+  security-events: write
+
+jobs:
+
+  setup:
+    # This is used to set env variable to access in reusable jobs
+    # as env context is not inside with
+    runs-on: ubuntu-latest
+    outputs:
+      dir_name: ${{env.dir_name}}
+      branch_name: ${{env.branch_name}}
+      language: ${{env.language}}
+      image_name: ${{env.image_name}}
+      dockerfile_name: ${{env.dockerfile_name}}
+    steps:
+      - run: echo "Setup completed..."
+
+
+  secret-scan:
+    needs: setup
+    uses: ./.github/workflows/secrets-scan.yaml
+    with:
+      branch_name: ${{ needs.setup.outputs.branch_name }}
+
+  code-quality:
+    needs: ["setup", "secret-scan"]
+    uses: ./.github/workflows/code-scan.yaml
+    with:
+      branch_name: ${{ needs.setup.outputs.branch_name }}
+      service_lang: ${{ needs.setup.outputs.language }}
+      dir_name: ${{ needs.setup.outputs.dir_name }}
+
+  build-scan:
+    needs: ["setup", "code-quality"]
+    uses: ./.github/workflows/build-scan-push.yaml
+    with:
+      branch_name: ${{ needs.setup.outputs.branch_name }}
+      service_lang: ${{ needs.setup.outputs.language }}
+      dir_name: ${{ needs.setup.outputs.dir_name }}
+      image_name: ${{ needs.setup.outputs.image_name }}
+
+    secrets: inherit
+
