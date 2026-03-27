@@ -25,7 +25,9 @@ jobs:
 
     defaults:
       run:
+        # this will work only in run, doesnt work in uses:
         working-directory: ${{ inputs.dir_name }}
+
         
     steps:
       - name: Checkout code
