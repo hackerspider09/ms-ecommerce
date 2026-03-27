@@ -14,6 +14,7 @@ env:
   dir_name: "frontend"
   branch_name: "main"
   language: "javascript"
+  image_name: "ecom-frontend"
 
 permissions:
   # permission added for codeql security scan
@@ -29,6 +30,7 @@ jobs:
       dir_name: ${{env.dir_name}}
       branch_name: ${{env.branch_name}}
       language: ${{env.language}}
+      image_name: ${{env.image_name}}
     steps:
       - run: echo "Setup completed..."
 
@@ -50,4 +52,15 @@ jobs:
       branch_name: ${{ needs.setup.outputs.branch_name }}
       service_lang: ${{ needs.setup.outputs.language }}
       dir_name: ${{ needs.setup.outputs.dir_name }}
+
+  build-scan:
+    needs: setup
+    uses: ./.github/workflows/build-scan-push.yaml
+    with:
+      branch_name: ${{ needs.setup.outputs.branch_name }}
+      service_lang: ${{ needs.setup.outputs.language }}
+      dir_name: ${{ needs.setup.outputs.dir_name }}
+      image_name: ${{ needs.setup.outputs.image_name }}
+
+    secrets: inherit
 
