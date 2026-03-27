@@ -23,6 +23,7 @@ permissions:
   security-events: write
 
 jobs:
+
   setup:
     # This is used to set env variable to access in reusable jobs
     # as env context is not inside with
@@ -43,16 +44,16 @@ jobs:
     with:
       branch_name: ${{ needs.setup.outputs.branch_name }}
 
-  # code-quality:
-  #   needs: setup
-  #   uses: ./.github/workflows/code-scan.yaml
-  #   with:
-  #     branch_name: ${{ needs.setup.outputs.branch_name }}
-  #     service_lang: ${{ needs.setup.outputs.language }}
-  #     dir_name: ${{ needs.setup.outputs.dir_name }}
+  code-quality:
+    needs: setup
+    uses: ./.github/workflows/code-scan.yaml
+    with:
+      branch_name: ${{ needs.setup.outputs.branch_name }}
+      service_lang: ${{ needs.setup.outputs.language }}
+      dir_name: ${{ needs.setup.outputs.dir_name }}
 
   build-scan:
-    needs: setup
+    needs: ["setup", "code-quality"]
     uses: ./.github/workflows/build-scan-push.yaml
     with:
       branch_name: ${{ needs.setup.outputs.branch_name }}
