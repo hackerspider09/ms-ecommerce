@@ -16,6 +16,7 @@ env:
   language: "javascript"
 
 permissions:
+  # permission added for codeql security scan
   contents: read
   security-events: write
 

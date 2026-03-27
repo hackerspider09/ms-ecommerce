@@ -20,7 +20,7 @@ on:
 jobs:
     
   code-scan:
-    # perform sast and sca
+    # perform sast
     runs-on: ubuntu-latest
 
     defaults:
@@ -44,3 +44,27 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
+
+
+  dependency-scan:
+    # Perform cve scan for lib/pkgs by trivy
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ inputs.dir_name }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ inputs.branch_name }}
+
+      - name: Dependency scan 
+        uses: aquasecurity/trivy-action@0.35.0
+        with:
+          exit-code: '1'
+          severity: 'CRITICAL'  # can add multiple by comma seperated in same string ' x,y,z'
+          scan-type: 'fs'  # dcan the filesystem
+          scan-ref: '.' # scan crnt dir
+          

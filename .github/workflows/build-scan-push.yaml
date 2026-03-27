@@ -2,10 +2,53 @@ name: Build, scan and push artifact
 
 on:
   workflow_call:
-    
+    inputs:
+      branch_name:
+        description: Use to checkout to specific branch
+        type: string
+        default: main
+      service_lang:
+        description: Language of application/service to setup for scans
+        type: string
+        required: true
+      dir_name:
+        description: Dir of code
+        type: string
+        required: true
+      image_name:
+        description: Image name for application to push
+        type: string
+        required: true
+
 jobs:
-  debug:
+  image-scan:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ${{ inputs.dir_name }}
+
     steps:
-      - name: print task
-        run: echo "Build scan and push"
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.branch_name }}
+
+      - name: Build docker image
+        uses: docker/build-push-action@v7
+        with:
+          push: false
+          tags: |
+            "${{ vars.DOCKERHUB_USERNAME }}/${{ inputs.image_name }}:${{ github.sha }}"
+            "${{ vars.DOCKERHUB_USERNAME }}/${{ inputs.image_name }}:latest"
+
+      - name: Scan image
+        uses: aquasecurity/trivy-action@0.35.0
+        with:
+          exit-code: '1'
+          severity: 'CRITICAL'  
+          scan-type: 'image'  
+          image-ref: "${{ vars.DOCKERHUB_USERNAME }}/${{ inputs.image_name }}:${{ github.sha }}"
+
+      - name: debug image
+        run: docker images
