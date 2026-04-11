@@ -2,9 +2,12 @@
 services:
   frontend:
     image: hackerspider09/ecom-frontend:latest
+    # latest tag: uses dev dockerfile
+    # prod tag: uses prod dockerfile
     
     ports:
       - "80:80"
+      - "5173:5173"
 
     environment:
       VITE_USER_SERVICE_URL: http://user-service:8000
@@ -116,3 +119,5 @@ services:
     depends_on:
       order-db: 
         condition: service_healthy
+
+  
