@@ -1,3 +1,5 @@
 19/3/2026
 [x] add information of postgres connection string how it will made
 
+12/04/2026
+[] there is problem when frontend runs with 5173 its taking env which i am giving so its calling on svc:port url which is not accessible and when i use with nginx as its already builded it using predefined service urls which is on localhost, how can solve this problem i think i need to add webserver inbetween all 
