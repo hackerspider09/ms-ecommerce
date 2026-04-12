@@ -1,10 +1,11 @@
 
 services:
   frontend:
-    image: hackerspider09/ecom-frontend:latest
+    image: hackerspider09/ecom-frontend:prod
     
     ports:
       - "80:80"
+      - "5173:5173"
 
     environment:
       VITE_USER_SERVICE_URL: http://user-service:8000
@@ -104,7 +105,7 @@ services:
     command: ["npm", "run", "seed"]
 
   order-service:
-    bimage: hackerspider09/ecom-orderservice:latest
+    image: hackerspider09/ecom-orderservice:latest
     environment:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://order-db:5432/orderdb" 
       SPRING_DATASOURCE_USERNAME: admin 
