@@ -7,6 +7,7 @@ to add Gateway api resource (crd): kubectl kustomize "https://github.com/nginx/n
 
 to install gateway controller: helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway --set nginx.service.type=NodePort --set-json 'nginx.service.nodePorts=[{"port":30007,"listenerPort":80}, {"port":30008,"listenerPort":8080}]'
 
+helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway --set nginx.service.type=NodePort --set-json 'nginx.service.nodePorts=[{"port":30007,"listenerPort":80}]'
 
 ## gateway api working
 

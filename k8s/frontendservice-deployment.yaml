@@ -35,8 +35,9 @@ spec:
             - containerPort: 80
             - containerPort: 5173
           env:
+            # Pass env in dev/ when svc are on diff urls
             - name: VITE_USER_SERVICE_URL
-              value: "http://userservice-service:8000"
+              value: ""
 
           # for debug only 
           imagePullPolicy: Never

@@ -6,13 +6,33 @@ metadata:
 spec:
   parentRefs:
   - name: ms-gateway
-  # hostnames:
-  # - "app.example.com"
+
   rules:
+
   - matches:
     - path:
-        type: Exact
+        type: PathPrefix
         value: /
     backendRefs:
     - name: frontend-service
       port: 5173
+
+  # '/api/' should be placed before '/'.
+  # '/' is a catch-all (matches everything), so specific routes must come first
+  # to avoid incorrect routing.
+
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/
+    backendRefs:
+    - name: userservice-service
+      port: 8000
+
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /api/products
+    backendRefs:
+    - name: userservice-service
+      port: 8000
