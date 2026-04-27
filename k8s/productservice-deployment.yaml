@@ -23,6 +23,14 @@ spec:
         tier: backend
 
     spec:
+      initContainers:
+        - name: seed-service
+          image: hackerspider09/ecom-productservice:latest
+          command: ["npm", "run", "seed"]
+          env:
+            - name: MONGODB_URI
+              value: "mongodb://admin:admin@productdb-st-0.productdb-service:27017/productdb?authSource=admin"
+        
       containers:
         - name: product-service
           image: hackerspider09/ecom-productservice:latest
