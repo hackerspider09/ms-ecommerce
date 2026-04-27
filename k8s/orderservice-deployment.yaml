@@ -1,0 +1,39 @@
+kind: Deployment
+apiVersion: apps/v1
+
+metadata:
+  name: orderservice-deployment
+  namespace: ms-ecom-application
+  labels:
+    app: order-service
+    tier: backend
+  
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+      tier: backend
+
+  template:
+    metadata:
+      name: orderservice-pod
+      labels:
+        app: order-service
+        tier: backend
+
+    spec:
+      containers:
+        - name: order-service
+          image: hackerspider09/ecom-orderservice:latest
+          ports:
+            - containerPort: 8082
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: "jdbc:postgresql://orderdb-st-0.orderdb-service:5432/orderdb"
+            - name: SPRING_DATASOURCE_USERNAME
+              value: "admin"
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: "admin"
+            - name: PRODUCT_SERVICE_URL
+              value: "http://productservice-service.ms-ecom-application.svc.cluster.local:3001"

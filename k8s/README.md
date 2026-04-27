@@ -314,4 +314,6 @@ Just tell me 👍
 
 ## way to connect app to service
 productdb-st-0.productdb-service
-name.svcname
+name.svcname (add general url like below)
+
+## to access service: http://<service-name>.<namespace>.svc.cluster.local:<port>

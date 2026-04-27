@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: orderservice-service
+  namespace: ms-ecom-application
+  labels:
+    app: order-service
+    tier: backend
+
+spec:
+  selector:
+    app: order-service
+    tier: backend
+
+  type: ClusterIP
+  ports:
+    - port: 8082
+      targetPort: 8082

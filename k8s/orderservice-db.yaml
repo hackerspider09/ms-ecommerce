@@ -1,0 +1,58 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: orderdb-service
+  namespace: ms-ecom-application
+  labels:
+    app: order-db
+    tier: db
+
+spec:
+  clusterIP: None
+  selector:
+    app: order-db
+    tier: db
+
+  ports:
+  - port: 5432
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: orderdb-st 
+  namespace: ms-ecom-application
+  labels:
+    app: order-db
+    tier: db
+spec:
+  selector:
+    matchLabels:
+      app: order-db
+      tier: db
+  
+  replicas: 1
+  serviceName: orderdb-service  
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      name: orderdb-pod
+      labels:
+        app: order-db
+        tier: db
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: orderdb
+        image: postgres:16-alpine
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_USER
+            value: admin
+          - name: POSTGRES_PASSWORD
+            value: admin
+          - name: POSTGRES_DB
+            value: "orderdb"
+    
