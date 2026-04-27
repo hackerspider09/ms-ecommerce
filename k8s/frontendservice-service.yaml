@@ -12,14 +12,17 @@ spec:
     app: frontend
     tier: frontend
   
-  type: NodePort
+  # type: NodePort
+  type: ClusterIP
   ports:
     - port: 80
       targetPort: 80
-      nodePort: 30007
+      # nodePort: 30007
       name: prod
 
     - port: 5173
       targetPort: 5173
-      nodePort: 30008
+      # nodePort: 30008
       name: dev
+
+# To port forward in cluster ip: kubectl port-forward svc/frontend-service -n ms-ecom-application 30011:5173 --address 0.0.0.0
