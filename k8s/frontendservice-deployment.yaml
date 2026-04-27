@@ -40,4 +40,5 @@ spec:
               value: ""
 
           # for debug only 
-          imagePullPolicy: Never
+          # imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent

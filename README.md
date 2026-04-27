@@ -27,13 +27,13 @@ The frontend communicates directly with each microservice using their respective
 
 | Service | Language | Runtime | Database | Port |
 |---------|----------|---------|----------|------|
-| [User Service](user-service/README.md) | Python | 3.12 | PostgreSQL 16 | 8000 |
-| [Product Service](product-service/README.md) | Node.js | 20 (LTS) | MongoDB 7 | 3001 |
-| [Order Service](order-service/README.md) | Java | 21 | PostgreSQL 16 | 8082 |
+| [User Service](user-service/README.md) | Python | 3.12 | PostgreSQL 16 (Port: 5432) | 8000 |
+| [Product Service](product-service/README.md) | Node.js | 20 (LTS) | MongoDB 7 (Port: 27017) | 3001 |
+| [Order Service](order-service/README.md) | Java | 21 | PostgreSQL 16 (Port: 5432) | 8082 |
 | [Frontend](frontend/README.md) | JavaScript | Node 20 | — | 5173 |
 
 ### Shared Infrastructure
-- **Redis 7**: Used by User Service for session/cache status.
+- **Redis 7** (Port: 6379): Used by User Service for session/cache status.
 
 ---
 
