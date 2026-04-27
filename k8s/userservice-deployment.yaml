@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: user-service
-          image: hackerspider09/ecom-userservice
+          image: hackerspider09/ecom-userservice:latest
           ports:
             - containerPort: 8000
           env:

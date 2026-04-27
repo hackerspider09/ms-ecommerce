@@ -309,3 +309,9 @@ I can help you:
 * Debug why routing fails in KIND
 
 Just tell me 👍
+
+
+
+## way to connect app to service
+productdb-st-0.productdb-service
+name.svcname

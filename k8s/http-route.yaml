@@ -34,5 +34,5 @@ spec:
         type: PathPrefix
         value: /api/products
     backendRefs:
-    - name: userservice-service
-      port: 8000
+    - name: productservice-service
+      port: 3001

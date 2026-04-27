@@ -1,0 +1,61 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: productdb-service
+  namespace: ms-ecom-application
+  labels:
+    app: product-db
+    tier: db
+
+spec:
+  clusterIP: None
+  selector:
+    app: product-db
+    tier: db
+
+  ports:
+  - port: 27017
+    # below is optional k8s assumes as container port is there
+    targetPort: 27017
+    name: mongo
+
+---
+
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: productdb-st 
+  namespace: ms-ecom-application
+  labels:
+    app: product-db
+    tier: db
+spec:
+  selector:
+    matchLabels:
+      app: product-db
+      tier: db
+  
+  replicas: 1
+  serviceName: productdb-service  
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      name: productdb-pod
+      labels:
+        app: product-db
+        tier: db
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: productdb
+        image: mongo:7.0
+        ports:
+        - containerPort: 27017
+        env:
+          - name: MONGO_INITDB_ROOT_USERNAME
+            value: admin
+          - name: MONGO_INITDB_ROOT_PASSWORD
+            value: admin
+          - name: MONGO_INITDB_DATABASE
+            value: "productdb"
+    

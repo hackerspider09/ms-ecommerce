@@ -1,0 +1,19 @@
+kind: Service
+apiVersion: v1
+
+metadata:
+  name: productservice-service
+  namespace: ms-ecom-application
+  labels:
+    app: product-service
+    tier: backend
+
+spec:
+  selector:
+    app: product-service
+    tier: backend
+
+  type: ClusterIP
+  ports:
+    - port: 3001
+      targetPort: 3001
