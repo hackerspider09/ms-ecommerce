@@ -6,3 +6,4 @@
 
 27/04/2026
 [] add port detail for db in readme
+[] add env from config map for all deployment
