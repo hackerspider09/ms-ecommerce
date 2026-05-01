@@ -22,6 +22,7 @@ services:
       SPRING_DATASOURCE_URL: "jdbc:postgresql://order-db:5432/orderdb" 
       SPRING_DATASOURCE_USERNAME: admin 
       SPRING_DATASOURCE_PASSWORD: admin
+      # may be its not gonna work as its localhost and docker will check in its networks so add prv ip of host machine it may work 
       PRODUCT_SERVICE_URL: "http://localhost:3001"
     ports:
       - "8082:8082"

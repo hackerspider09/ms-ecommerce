@@ -3,15 +3,15 @@ services:
   frontend:
     build: 
       context: frontend
-      dockerfile: Dockerfile.prod 
+      dockerfile: Dockerfile.dev
     
     ports:
       - "80:80"
-
+      - "5173:5173"
     environment:
-      VITE_USER_SERVICE_URL: http://user-service:8000
-      VITE_PRODUCT_SERVICE_URL: http://product-service:3001
-      VITE_ORDER_SERVICE_URL: http://order-service:8082
+      VITE_USER_SERVICE_URL: http://localhost:8000
+      VITE_PRODUCT_SERVICE_URL: http://localhost:3001
+      VITE_ORDER_SERVICE_URL: http://localhost:8082
 
     depends_on:
       - user-service

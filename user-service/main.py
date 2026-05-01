@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException, status
+from sqlalchemy import text
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 import models
@@ -99,3 +100,11 @@ def redis_status():
 @app.get("/api/health")
 def health():
     return {"status": "healthy"}
+
+@app.get("/api/health/db")
+def health_db(db: Session = Depends(get_db)):
+    try:
+        db.execute(text("SELECT 1"))
+        return {"database": "online"}
+    except Exception as e:
+        return {"database": "offline", "error": str(e)}

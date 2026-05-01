@@ -5,7 +5,7 @@ import { useCart } from '../context/CartContext';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const { cart } = useCart();
+  const { cart, toggleCart } = useCart();
 
   return (
     <nav className="navbar">
@@ -15,6 +15,9 @@ const Navbar = () => {
       <div className="nav-links">
         <Link to="/">Products</Link>
         <Link to="/status">Infrastructure</Link>
+
+        {/* uncomment after complete arch */}
+        <Link to="/workflow">Architecture</Link>
         {user ? (
           <>
             <Link to="/orders">My Orders</Link>
@@ -28,7 +31,7 @@ const Navbar = () => {
             <Link to="/signup" className="btn-signup">Sign Up</Link>
           </>
         )}
-        <div className="cart-summary">
+        <div className="cart-summary" onClick={toggleCart} style={{ cursor: 'pointer' }}>
           🛒 {cart.reduce((acc, item) => acc + item.quantity, 0)}
         </div>
       </div>

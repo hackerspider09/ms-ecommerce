@@ -10,6 +10,8 @@ import AddProduct from './pages/AddProduct';
 import ProductDetail from './pages/ProductDetail';
 import Status from './pages/Status';
 import Orders from './pages/Orders';
+import Workflow from './pages/Workflow';
+import CartSidebar from './components/CartSidebar';
 import './index.css';
 
 function App() {
@@ -19,12 +21,14 @@ function App() {
         <CartProvider>
           <div className="app">
             <Navbar />
+            <CartSidebar />
             <main className="container">
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/status" element={<Status />} />
+                <Route path="/workflow" element={<Workflow />} />
                 <Route path="/products/:id" element={<ProductDetail />} />
                 <Route path="/add-product" element={<AddProduct />} />
                 <Route path="/orders" element={<Orders />} />

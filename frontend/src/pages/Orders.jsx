@@ -27,13 +27,33 @@ const Orders = () => {
       {orders.length === 0 && user && <p>No orders yet.</p>}
       <div className="order-list">
         {orders.map(order => (
-          <div key={order.id} className="order-card">
-            <h4>Order #{order.orderNumber}</h4>
-            <ul>
+          <div key={order.id} className="order-card-wrap">
+            <div className="order-card-header">
+              <div className="order-main-info">
+                <h4>Order #{order.orderNumber}</h4>
+                <span className="order-date">Date: {new Date().toLocaleDateString()}</span>
+              </div>
+              <span className="order-status-tag">Ready</span>
+            </div>
+            
+            <div className="order-items-list">
               {order.orderItems.map(item => (
-                <li key={item.id}>Product ID: {item.productId} | Quantity: {item.quantity} | Price: ${item.price}</li>
+                <div key={item.id} className="order-item-row">
+                  <div className="item-details">
+                    <span className="item-id">Product ID: {item.productId}</span>
+                    <span className="item-qty">Qty: {item.quantity}</span>
+                  </div>
+                  <span className="item-price">${item.price.toFixed(2)}</span>
+                </div>
               ))}
-            </ul>
+            </div>
+            
+            <div className="order-card-footer">
+              <span>Total Amount:</span>
+              <span className="total-price">
+                ${order.orderItems.reduce((acc, item) => acc + (item.price * item.quantity), 0).toFixed(2)}
+              </span>
+            </div>
           </div>
         ))}
       </div>

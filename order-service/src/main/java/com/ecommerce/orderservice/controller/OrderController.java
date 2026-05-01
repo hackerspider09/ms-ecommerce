@@ -75,4 +75,14 @@ public class OrderController {
     public String health() {
         return "Order Service is healthy";
     }
+
+    @GetMapping("/health/db")
+    public java.util.Map<String, String> healthDb() {
+        try {
+            orderRepository.count();
+            return java.util.Map.of("database", "online");
+        } catch (Exception e) {
+            return java.util.Map.of("database", "offline", "error", e.getMessage());
+        }
+    }
 }

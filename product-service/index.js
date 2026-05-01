@@ -34,6 +34,15 @@ app.get('/api/products/health', (req, res) => {
   res.json({ status: 'healthy' });
 });
 
+app.get('/api/products/health/db', (req, res) => {
+  const mongoose = require('mongoose');
+  if (mongoose.connection.readyState === 1) {
+    res.json({ database: 'online' });
+  } else {
+    res.json({ database: 'offline', status: mongoose.connection.readyState });
+  }
+});
+
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find();

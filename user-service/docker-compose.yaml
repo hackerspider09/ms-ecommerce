@@ -23,7 +23,7 @@ services:
   user-service:
     build: .
     environment:
-      DATABASE_URL: "postgresql://adin:admin@user-db:5432/userdb"
+      DATABASE_URL: "postgresql://admin:admin@user-db:5432/userdb"
     ports:
       - "8000:8000"
     depends_on:

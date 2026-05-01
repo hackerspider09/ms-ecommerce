@@ -43,17 +43,6 @@ const Home = () => {
       <div className="product-grid">
         {products.map(p => <ProductCard key={p.id} product={p} />)}
       </div>
-      {cart.length > 0 && (
-        <div className="cart-sidebar">
-          <h3>Your Cart</h3>
-          <ul>
-            {cart.map(item => (
-              <li key={item.id}>{item.name} x {item.quantity}</li>
-            ))}
-          </ul>
-          <button onClick={handleCheckout} className="btn-checkout">Checkout</button>
-        </div>
-      )}
     </div>
   );
 };
