@@ -3,6 +3,7 @@ apiVersion: v1
 
 metadata:
   name: ecom-configmap
+  namespace: ms-ecom-application
   labels:
     app: configmap 
     tier: env
