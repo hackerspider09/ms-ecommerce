@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -36,24 +37,35 @@ public class OrderController {
 
         List<OrderItem> orderItems = orderRequest.getOrderItems().stream()
                 .map(itemDto -> {
-                    // Call Product Service to get price (simulation of inter-service comm)
-                    ProductResponse product = restTemplate.getForObject(
-                            productServiceUrl + "/api/products/" + itemDto.getProductId(),
-                            ProductResponse.class
-                    );
-                    
                     OrderItem item = new OrderItem();
                     item.setProductId(itemDto.getProductId());
                     item.setQuantity(itemDto.getQuantity());
-                    if (product != null) {
-                        item.setPrice(product.getPrice());
+                    
+                    try {
+                        // Call Product Service to get price (simulation of inter-service comm)
+                        ProductResponse product = restTemplate.getForObject(
+                                productServiceUrl + "/api/products/" + itemDto.getProductId(),
+                                ProductResponse.class
+                        );
+                        
+                        if (product != null) {
+                            item.setPrice(product.getPrice());
+                        } else {
+                            // Fallback if product not found or service returns empty
+                            item.setPrice(BigDecimal.ZERO);
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Error calling Product Service for ID " + itemDto.getProductId() + ": " + e.getMessage());
+                        // Fallback price or handle error - for now we set 0 and log
+                        item.setPrice(BigDecimal.ZERO); 
                     }
+                    
                     return item;
                 }).collect(Collectors.toList());
 
         order.setOrderItems(orderItems);
         orderRepository.save(order);
-        return "Order Placed Successfully";
+        return "Order Placed (Note: Some price information might be unavailable if Product Service is down)";
     }
 
     @GetMapping("/user/{userId}")

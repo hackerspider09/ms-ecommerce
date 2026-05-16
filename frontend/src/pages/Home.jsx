@@ -6,6 +6,7 @@ import { useAuth } from '../context/AuthContext';
 
 const Home = () => {
   const [products, setProducts] = useState([]);
+  const [error, setError] = useState(null);
   const { cart, clearCart } = useCart();
   const { user } = useAuth();
 
@@ -14,8 +15,9 @@ const Home = () => {
       try {
         const res = await productApi.get('');
         setProducts(res.data);
+        setError(null);
       } catch (err) {
-        console.error('Failed to fetch products');
+        setError('Product service is currently unavailable. Please try again later.');
       }
     };
     fetchProducts();
@@ -34,15 +36,24 @@ const Home = () => {
       alert('Order placed successfully!');
       clearCart();
     } catch (err) {
-      alert('Checkout failed');
+      alert('Checkout failed: Order service might be down');
     }
   };
 
   return (
     <div className="page home-page">
+      {error && (
+        <div className="error-banner">
+          <span className="error-icon">⚠️</span>
+          {error}
+        </div>
+      )}
       <div className="product-grid">
         {products.map(p => <ProductCard key={p.id} product={p} />)}
       </div>
+      {!error && products.length === 0 && (
+        <div className="loading-state">Loading products...</div>
+      )}
     </div>
   );
 };

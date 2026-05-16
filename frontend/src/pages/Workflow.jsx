@@ -22,17 +22,17 @@ const Workflow = () => {
       ]);
 
       setHealth({
-        user: { 
-          service: uS.status === 'fulfilled' ? 'online' : 'offline', 
-          db: uD.status === 'fulfilled' ? uD.value.data.database : 'offline' 
+        user: {
+          service: uS.status === 'fulfilled' ? 'online' : 'offline',
+          db: uD.status === 'fulfilled' ? uD.value.data.database : 'offline'
         },
-        product: { 
-          service: pS.status === 'fulfilled' ? 'online' : 'offline', 
-          db: pD.status === 'fulfilled' ? pD.value.data.database : 'offline' 
+        product: {
+          service: pS.status === 'fulfilled' ? 'online' : 'offline',
+          db: pD.status === 'fulfilled' ? pD.value.data.database : 'offline'
         },
-        order: { 
-          service: oS.status === 'fulfilled' ? 'online' : 'offline', 
-          db: oD.status === 'fulfilled' ? oD.value.data.database : 'offline' 
+        order: {
+          service: oS.status === 'fulfilled' ? 'online' : 'offline',
+          db: oD.status === 'fulfilled' ? oD.value.data.database : 'offline'
         },
         redis: rS.status === 'fulfilled' ? rS.value.data.redis : 'offline'
       });
@@ -66,30 +66,30 @@ const Workflow = () => {
               {/* Nodes */}
               <rect x="0" y="20" width="80" height="40" rx="5" className="cicd-node" />
               <text x="40" y="45" className="node-text small">Dev Push</text>
-              
+
               <line x1="80" y1="40" x2="120" y2="40" className="cicd-line" markerEnd="url(#arrow)" />
-              
+
               <rect x="120" y="20" width="80" height="40" rx="5" className="cicd-node github" />
               <text x="160" y="45" className="node-text small">GitHub</text>
-              
+
               <line x1="200" y1="40" x2="240" y2="40" className="cicd-line" markerEnd="url(#arrow)" />
-              
+
               <rect x="240" y="20" width="100" height="40" rx="5" className="cicd-node actions" />
               <text x="290" y="40" className="node-text xsmall">Actions CI</text>
               <text x="290" y="52" className="node-subtext xsmall">Build & Scan</text>
-              
+
               <line x1="340" y1="40" x2="380" y2="40" className="cicd-line" markerEnd="url(#arrow)" />
-              
+
               <rect x="380" y="20" width="80" height="40" rx="5" className="cicd-node hub" />
               <text x="420" y="45" className="node-text small">Docker Hub</text>
-              
+
               <line x1="460" y1="40" x2="500" y2="40" className="cicd-line" markerEnd="url(#arrow)" />
-              
+
               <rect x="500" y="20" width="80" height="40" rx="5" className="cicd-node argo" />
               <text x="540" y="45" className="node-text small">ArgoCD</text>
-              
+
               <line x1="580" y1="40" x2="620" y2="40" className="cicd-line" markerEnd="url(#arrow)" />
-              
+
               <rect x="620" y="20" width="100" height="40" rx="5" className="cicd-node k8s" />
               <text x="670" y="45" className="node-text small">K8s Cluster</text>
             </g>
@@ -98,7 +98,13 @@ const Workflow = () => {
       </div>
 
       <div className="workflow-section">
-        <h3>Live Cluster Architecture</h3>
+        <div className="section-header">
+          <h3>Live Cluster Architecture</h3>
+          <div className="live-badge">
+            <span className="live-dot"></span>
+            LIVE STATUS (POLLING)
+          </div>
+        </div>
         <div className="workflow-container">
           <svg viewBox="0 0 800 500" className="architecture-svg">
             <defs>
@@ -131,25 +137,25 @@ const Workflow = () => {
               <g transform="translate(140, 200)">
                 <rect width="120" height="60" rx="10" className={`node-box service ${health.user.service}`} />
                 <text x="60" y="30" className="node-text">User Service</text>
-                <text x="60" y="45" className="node-subtext">(FastAPI)</text>
+                <text x="60" y="45" className="node-subtext">Python</text>
                 <StatusDot status={health.user.service} x="110" y="10" />
-                <g className="pod-badge"><rect x="5" y="5" width="40" height="15" rx="3" fill="#333"/><text x="25" y="16" className="pod-text">Pods: 1</text></g>
+                <g className="pod-badge"><rect x="5" y="5" width="40" height="15" rx="3" fill="#333" /><text x="25" y="16" className="pod-text">Pods: 1</text></g>
               </g>
 
               <g transform="translate(340, 200)">
                 <rect width="120" height="60" rx="10" className={`node-box service ${health.product.service}`} />
                 <text x="60" y="30" className="node-text">Product Service</text>
-                <text x="60" y="45" className="node-subtext">(Express)</text>
+                <text x="60" y="45" className="node-subtext">JavaScript</text>
                 <StatusDot status={health.product.service} x="110" y="10" />
-                <g className="pod-badge"><rect x="5" y="5" width="40" height="15" rx="3" fill="#333"/><text x="25" y="16" className="pod-text">Pods: 1</text></g>
+                <g className="pod-badge"><rect x="5" y="5" width="40" height="15" rx="3" fill="#333" /><text x="25" y="16" className="pod-text">Pods: 1</text></g>
               </g>
 
               <g transform="translate(540, 200)">
                 <rect width="120" height="60" rx="10" className={`node-box service ${health.order.service}`} />
                 <text x="60" y="30" className="node-text">Order Service</text>
-                <text x="60" y="45" className="node-subtext">(SpringBoot)</text>
+                <text x="60" y="45" className="node-subtext">Java</text>
                 <StatusDot status={health.order.service} x="110" y="10" />
-                <g className="pod-badge"><rect x="5" y="5" width="40" height="15" rx="3" fill="#333"/><text x="25" y="16" className="pod-text">Pods: 1</text></g>
+                <g className="pod-badge"><rect x="5" y="5" width="40" height="15" rx="3" fill="#333" /><text x="25" y="16" className="pod-text">Pods: 1</text></g>
               </g>
 
               {/* Databases */}
@@ -187,8 +193,39 @@ const Workflow = () => {
           color: var(--accent-cyan); 
           text-transform: uppercase; 
           letter-spacing: 2px; 
-          margin-bottom: 1.5rem;
+          margin-bottom: 0;
           font-size: 1.1rem;
+        }
+        .section-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 1.5rem;
+        }
+        .live-badge {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(0, 242, 255, 0.1);
+          padding: 0.4rem 0.8rem;
+          border-radius: 20px;
+          border: 1px solid rgba(0, 242, 255, 0.2);
+          font-size: 0.7rem;
+          font-weight: 800;
+          color: var(--accent-cyan);
+          letter-spacing: 1px;
+        }
+        .live-dot {
+          width: 8px;
+          height: 8px;
+          background: var(--status-green);
+          border-radius: 50%;
+          animation: blink 1s infinite;
+        }
+        @keyframes blink {
+          0% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.4; transform: scale(1.2); }
+          100% { opacity: 1; transform: scale(1); }
         }
         .workflow-container {
           background: var(--bg-card);

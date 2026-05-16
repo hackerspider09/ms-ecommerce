@@ -221,3 +221,12 @@ productdb-st-0.productdb-service
 name.svcname (add general url like below)
 
 ## to access service: http://<service-name>.<namespace>.svc.cluster.local:<port>
+
+
+
+
+
+to see live log use -f follow flag
+```
+kubectl logs -f pods/orderservice-deployment-764c7546c8-4ng5b -n ms-ecom-application
+```

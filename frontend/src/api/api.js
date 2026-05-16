@@ -37,3 +37,14 @@ orderApi.interceptors.request.use((config) => {
   }
   return config;
 });
+
+// Global Response Interceptor for Error Handling
+const handleResponseError = (error) => {
+  console.error(`API Error [${error.config?.baseURL}${error.config?.url}]:`, error.message);
+  // We return a rejected promise so components can still handle specific errors if they want
+  return Promise.reject(error);
+};
+
+userApi.interceptors.response.use(response => response, handleResponseError);
+productApi.interceptors.response.use(response => response, handleResponseError);
+orderApi.interceptors.response.use(response => response, handleResponseError);

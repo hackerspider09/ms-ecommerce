@@ -420,3 +420,34 @@ body {
   color: var(--accent-cyan);
   font-size: 1.1rem;
 }
+
+/* Error Banner & Loading */
+.error-banner {
+  background: rgba(255, 49, 49, 0.1);
+  border: 1px solid var(--status-red);
+  color: var(--status-red);
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+}
+
+.error-icon {
+  font-size: 1.2rem;
+}
+
+.loading-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(-10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
