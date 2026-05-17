@@ -16,11 +16,9 @@ nodes:
 
   # - role: worker
   #   image: kindest/node:v1.34.0
-      # - role: worker
-      # image: kindest/node:v1.34.0
 
-# kind create cluster --config cluster.yaml --name kind-cluster
-# kind delete cluster --name kind-cluster
+# kind create cluster --config kindCluster.yaml --name ecom-cluster
+# kind delete cluster --name ecom-cluster
 # kind get clusters
-# kind load docker-image hackerspider09/ecom-frontend:latest --name kind-cluster
+# kind load docker-image hackerspider09/ecom-frontend:latest --name ecom-cluster
 # docker exec -it kind-cluster-control-plane crictl images 

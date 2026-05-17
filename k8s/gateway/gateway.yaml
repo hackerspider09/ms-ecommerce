@@ -4,7 +4,8 @@ metadata:
   name: ms-gateway
   namespace: ms-gateway
 spec:
-  gatewayClassName: nginx
+  # gatewayClassName: nginx
+  gatewayClassName: envoy
   listeners:
   - name: http
     port: 80

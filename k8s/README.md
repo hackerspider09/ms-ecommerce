@@ -1,6 +1,6 @@
 
 
-## install nginx gateay
+## install nginx gateay (used in kind)
 doc: https://docs.nginx.com/nginx-gateway-fabric/get-started/
 
 to add Gateway api resource (crd): 
@@ -9,6 +9,26 @@ kubectl kustomize "https://github.com/nginx/nginx-gateway-fabric/config/crd/gate
 to install gateway controller: helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway --set nginx.service.type=NodePort --set-json 'nginx.service.nodePorts=[{"port":30007,"listenerPort":80}, {"port":30008,"listenerPort":8080}]'
 
 helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway --set nginx.service.type=NodePort --set-json 'nginx.service.nodePorts=[{"port":30007,"listenerPort":80}]'
+
+
+## install envoy (used in minikube)
+
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
+
+kubectl create -f https://github.com/envoyproxy/gateway/releases/latest/download/install.yaml
+
+Step 4: Verify installation
+kubectl get pods -n envoy-gateway-system
+
+## ARGO
+
+kubectl create namespace argocd
+kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+kubectl port-forward svc/argocd-server -n argocd 8080:80 --address=0.0.0.0
+
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
 
 ## gateway api working
 
