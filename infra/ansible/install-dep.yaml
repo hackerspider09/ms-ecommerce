@@ -1,0 +1,12 @@
+- name: Install docker, kind and update
+  hosts: servers
+  become: true
+
+  tasks:
+    - name: update system
+      apt:
+        name: "*"
+        state: latest
+    
+    - name: install docker and kind
+      apt: 
