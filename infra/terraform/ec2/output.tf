@@ -16,3 +16,7 @@ output "ec2_ip" {
     used_sn = resource.aws_instance.kind_instance.subnet_id
   }
 }
+
+output "ssh_cmd"{
+  value = "ssh -i ${local.ssh_key_path} ${var.instance_user}@${resource.aws_instance.kind_instance.public_ip}"
+}

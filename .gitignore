@@ -8,9 +8,9 @@ target/
 *.log
 
 docs
-infra/terraform/keys
-infra/terraform/.terraform
-infra/terraform/terraform.tfstate
-infra/terraform/terraform.tfstate.backup
+infra/**/keys
+infra/**/.terraform
+infra/**/terraform.tfstate
+infra/**/terraform.tfstate.backup
 
 

@@ -8,6 +8,11 @@ variable "instance_name" {
   default = "ecom-ec2"
 }
 
+variable "instance_user" {
+  type = string
+  default = "ubuntu"
+}
+
 variable "instance_type" {
   type = string
   default = "t3-medium"
