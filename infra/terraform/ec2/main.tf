@@ -73,3 +73,12 @@ echo "${file(local.ssh_key_path)}" >> /home/ubuntu/.ssh/authorized_keys
     }
   }
 }
+
+resource "local_file" "ansible_invt" {
+  content = templatefile("${path.module}/tf_inventory.tpl",{
+    ip = resource.aws_instance.kind_instance.public_ip
+    username = var.instance_user
+    ssh_filename = var.sshkey_filename
+  })
+  filename = "${path.module}/../../ansible/inventory.ini"
+}

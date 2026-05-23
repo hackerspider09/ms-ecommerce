@@ -5,5 +5,5 @@ locals {
     "project": "ms-ecom"
   }
 
-  ssh_key_path = "${path.module}/keys/${var.key_filename}"
+  ssh_key_path = "${path.module}/keys/${var.sshkey_filename}.pub"
 }

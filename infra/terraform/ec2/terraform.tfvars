@@ -3,4 +3,4 @@ ami_id = "ami-091138d0f0d41ff90"
 
 instance_type = "t2.micro"
 
-key_filename = "ms-ecom.pub"
+sshkey_filename = "ms-ecom"

@@ -22,6 +22,6 @@ variable "ami_id" {
   type = string
 }
 
-variable "key_filename" {
+variable "sshkey_filename" {
   type = string
 }
