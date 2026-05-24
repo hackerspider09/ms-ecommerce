@@ -1,0 +1,30 @@
+- name: Install docker, kind and update
+  hosts: servers
+  become: true
+  gather_facts: true
+
+  tasks:
+    # - name: debug 
+    #   debug:
+    #     msg: "{{ ansible_facts.env.PWD }}"
+
+      
+    - name: Install common pkgs 
+      import_role:
+        name: common
+    
+    - name: Install Docker
+      import_role: 
+        name: docker
+
+    - name: Install Kind 
+      import_role:
+        name: kind 
+
+    - name: Install Kubectl  
+      import_role:
+        name: kubectl
+
+    - name: Install helm  
+      import_role:
+        name: helm

@@ -1,0 +1,24 @@
+
+- name: Dearmor helm gpg key 
+  shell: curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor -o /usr/share/keyrings/helm.gpg
+  args:
+    creates: /usr/share/keyrings/helm.gpg 
+  
+- name: Add helm repo
+  apt_repository:
+    filename: helm-stable-debian
+    repo: "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" 
+    state: present
+    update_cache: true
+
+- name: Install Helm 
+  apt:
+    name: helm
+    state: present
+
+
+# sudo apt-get install curl gpg apt-transport-https --yes
+# curl -fsSL https://packages.buildkite.com/helm-linux/helm-debian/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null
+# echo "deb [signed-by=/usr/share/keyrings/helm.gpg] https://packages.buildkite.com/helm-linux/helm-debian/any/ any main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list
+# sudo apt-get update
+# sudo apt-get install helm

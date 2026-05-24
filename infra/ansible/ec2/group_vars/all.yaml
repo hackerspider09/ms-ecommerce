@@ -1,0 +1,7 @@
+system_arch_map:
+  x86_64: amd64
+  aarch64: arm64
+
+system_arch: "{{ system_arch_map[ansible_facts['architecture']] }}"
+
+kind_version: v0.31.0
