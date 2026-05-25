@@ -1,4 +1,4 @@
-- name: Install docker, kind and update
+- name: Setup ec2 or vm for full devops application 
   hosts: servers
   become: true
   gather_facts: true
@@ -32,9 +32,13 @@
     - name: Create kind cluster 
       import_role:
         name: kindCluster 
+      become: false
+      # explicitly added because i want kind to be present in normal user not root
+      #  because kind writes kubeconfig to user's home directory
+      # with become:true it gets created under /root/.kube/config and is inaccessible to normal user.
+
 
     - name: Install argocd and initiate app deployment
       import_role:
         name: argocd
-      become_user: "{{ ansible_user }}"
-      # added because kind is present for normal user so it has to use explicitly
+      become: false

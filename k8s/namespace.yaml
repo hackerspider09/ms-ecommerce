@@ -2,9 +2,9 @@ kind: Namespace
 apiVersion: v1
 
 metadata:
-  name: ms-ecom-application
+  name: ms-ecom
 
-# set namespace: kubectl config set-context --current --namespace=ms-ecom-application
+# set namespace: kubectl config set-context --current --namespace=ms-ecom
 # to view default config: kubectl config view --minify
 
 # to reset back: kubectl config set-context --current --namespace=default

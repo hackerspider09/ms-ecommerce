@@ -21,9 +21,6 @@
     --config /tmp/kindCluster.yaml \
     --name ecom-cluster
   when: cluster_op.stdout == ""  
-  become_user: "{{ ansible_user }}"
-  # used become user because kind writes kubeconfig to user's home directory;
-  # with become:true it gets created under /root/.kube/config and is inaccessible to normal user.
 
 
 - name: Wait till cluster creates 
@@ -32,4 +29,3 @@
       --for=condition=Ready nodes \
       --all --timeout=30s
   changed_when: false
-  become_user: "{{ ansible_user }}"

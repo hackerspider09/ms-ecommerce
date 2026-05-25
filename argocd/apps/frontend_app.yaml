@@ -11,7 +11,7 @@ spec:
     path: k8s/frontend
   destination:
     server: https://kubernetes.default.svc
-    namespace: ms-ecom-application
+    namespace: ms-ecom
   
   syncPolicy:
     automated: {}

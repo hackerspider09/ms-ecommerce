@@ -8,7 +8,7 @@ apiVersion: apps/v1
 # to make it accessible use loadbalancer, ingress, nodeport
 metadata:
   name: frontendservice-deployment
-  namespace: ms-ecom-application
+  namespace: ms-ecom
   labels:
     app: frontend
     tier: frontend

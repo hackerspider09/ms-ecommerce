@@ -248,5 +248,5 @@ name.svcname (add general url like below)
 
 to see live log use -f follow flag
 ```
-kubectl logs -f pods/orderservice-deployment-764c7546c8-4ng5b -n ms-ecom-application
+kubectl logs -f pods/orderservice-deployment-764c7546c8-4ng5b -n ms-ecom
 ```

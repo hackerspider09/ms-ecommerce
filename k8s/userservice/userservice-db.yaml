@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: userdb-service
-  namespace: ms-ecom-application
+  namespace: ms-ecom
   labels:
     app: user-db
     tier: db
@@ -22,7 +22,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: userdb-st 
-  namespace: ms-ecom-application
+  namespace: ms-ecom
   labels:
     app: user-db
     tier: db

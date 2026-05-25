@@ -55,6 +55,10 @@ resource "aws_instance" "kind_instance" {
   ami           = var.ami_id
   instance_type = var.instance_type
 
+  root_block_device {
+    volume_size = 25
+    volume_type = "gp3"
+  }
   
   subnet_id = data.aws_subnets.default_sn.ids[0]
   vpc_security_group_ids = [module.kind_sg.security_group_id]

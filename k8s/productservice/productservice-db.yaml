@@ -2,7 +2,7 @@ kind: Service
 apiVersion: v1
 metadata:
   name: productdb-service
-  namespace: ms-ecom-application
+  namespace: ms-ecom
   labels:
     app: product-db
     tier: db
@@ -25,7 +25,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: productdb-st 
-  namespace: ms-ecom-application
+  namespace: ms-ecom
   labels:
     app: product-db
     tier: db

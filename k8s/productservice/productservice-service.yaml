@@ -3,7 +3,7 @@ apiVersion: v1
 
 metadata:
   name: productservice-service
-  namespace: ms-ecom-application
+  namespace: ms-ecom
   labels:
     app: product-service
     tier: backend

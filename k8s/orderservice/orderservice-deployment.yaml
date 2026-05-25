@@ -3,7 +3,7 @@ apiVersion: apps/v1
 
 metadata:
   name: orderservice-deployment
-  namespace: ms-ecom-application
+  namespace: ms-ecom
   labels:
     app: order-service
     tier: backend
@@ -36,4 +36,4 @@ spec:
             - name: SPRING_DATASOURCE_PASSWORD
               value: "admin"
             - name: PRODUCT_SERVICE_URL
-              value: "http://productservice-service.ms-ecom-application.svc.cluster.local:3001"
+              value: "http://productservice-service.ms-ecom.svc.cluster.local:3001"
