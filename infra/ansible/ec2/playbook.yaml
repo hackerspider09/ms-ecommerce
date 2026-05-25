@@ -38,10 +38,10 @@
       # with become:true it gets created under /root/.kube/config and is inaccessible to normal user.
 
 
-    # - name: Install Gateway CRD and envoy 
-    #   import_role: 
-    #     name: gateway
-    #   become: false
+    - name: Install Gateway CRD and envoy 
+      import_role: 
+        name: gateway
+      become: false
 
     - name: Install Argocd and initiate app deployment
       import_role:

@@ -24,6 +24,7 @@ helm install eg oci://docker.io/envoyproxy/gateway-helm --version v0.0.0-latest 
 
 Step 4: Verify installation
 kubectl get pods -n envoy-gateway-system
+kubectl get crd | grep gateway.networking.k8s.io
 
 *****
 Remove Envoy Gateway Installation Completely
