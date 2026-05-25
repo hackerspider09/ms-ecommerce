@@ -9,26 +9,32 @@
     #     msg: "{{ ansible_facts.env.PWD }}"
 
       
-    # - name: Install common pkgs 
-    #   import_role:
-    #     name: common
+    - name: Install common pkgs 
+      import_role:
+        name: common
     
-    # - name: Install Docker
-    #   import_role: 
-    #     name: docker
+    - name: Install Docker
+      import_role: 
+        name: docker
 
-    # - name: Install Kind 
-    #   import_role:
-    #     name: kind 
+    - name: Install Kind 
+      import_role:
+        name: kind 
 
-    # - name: Install Kubectl  
-    #   import_role:
-    #     name: kubectl
+    - name: Install Kubectl  
+      import_role:
+        name: kubectl
 
-    # - name: Install helm  
-    #   import_role:
-    #     name: helm
+    - name: Install helm  
+      import_role:
+        name: helm
+
+    - name: Create kind cluster 
+      import_role:
+        name: kindCluster 
 
     - name: Install argocd and initiate app deployment
       import_role:
         name: argocd
+      become_user: "{{ ansible_user }}"
+      # added because kind is present for normal user so it has to use explicitly

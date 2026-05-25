@@ -14,11 +14,11 @@
 
 - name: Wait for ArgoCD
   shell: |
-    kubectl wait --for=condition=Ready pods --all -n argocd --timeout=30s
+    kubectl wait --for=condition=Ready pods --all -n argocd --timeout=300s
 
 - name: Copy application manifest  
   copy:
-    src: "../../../argocd/argo_app"
+    src: "../../../argocd/argo_app/argo_app.yaml"
     dest: "/tmp/argo_app.yaml"
 
 - name: Run argo application manifest

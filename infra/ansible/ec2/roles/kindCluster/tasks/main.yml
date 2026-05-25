@@ -1,0 +1,35 @@
+
+- name: Check kind cluster
+  shell: kind get clusters
+  register: cluster_op
+  changed_when: false
+  failed_when: false
+
+- name: debug
+  debug:
+    msg: "{{cluster_op.stdout_lines}}"
+
+- name: Copy kind file 
+  copy:
+    src: kindCluster.yaml
+    dest: /tmp/kindCluster.yaml
+    mode: "0644"
+
+- name: Create kind cluster 
+  shell: |
+    kind create cluster \
+    --config /tmp/kindCluster.yaml \
+    --name ecom-cluster
+  when: cluster_op.stdout == ""  
+  become_user: "{{ ansible_user }}"
+  # used become user because kind writes kubeconfig to user's home directory;
+  # with become:true it gets created under /root/.kube/config and is inaccessible to normal user.
+
+
+- name: Wait till cluster creates 
+  shell: |
+    kubectl wait \
+      --for=condition=Ready nodes \
+      --all --timeout=30s
+  changed_when: false
+  become_user: "{{ ansible_user }}"
