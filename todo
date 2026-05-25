@@ -9,5 +9,11 @@
 [] add env from config map for all deployment
 
 19/05/2026
-[] add terraform local file to create inventory
-[] add ansible to install dependecy
+[x] add terraform local file to create inventory
+[x] add ansible to install dependecy
+
+25/05/2026
+[] create kind cluster, 
+[] install argo: 
+[] add 80 port if 30010 works for argo
+ 

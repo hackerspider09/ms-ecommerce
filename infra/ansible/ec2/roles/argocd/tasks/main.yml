@@ -1,0 +1,29 @@
+
+- name: Create argocd ns
+  shell: |
+    kubectl create namespace argocd --dry-run=client -o yaml | kubectl apply -f -
+
+# 1st dry run will create YAML and will pass to pipe 
+# - is unix convention for stdin and stdout 
+# and k8s has explicitly implemented -f - "read manifest from stdin"
+
+- name: Install ArgoCD 
+  shell: |
+    kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+
+
+- name: Wait for ArgoCD
+  shell: |
+    kubectl wait --for=condition=Ready pods --all -n argocd --timeout=30s
+
+- name: Copy application manifest  
+  copy:
+    src: "../../../argocd/argo_app"
+    dest: "/tmp/argo_app.yaml"
+
+- name: Run argo application manifest
+  shell: |
+    kubectl apply -f /tmp/argo_app.yaml
+
+
+

@@ -30,6 +30,12 @@ module "kind_sg" {
       # cidr_blocks = "0.0.0.0/0"
     },
     {
+      from_port   = 80
+      to_port     = 80
+      protocol    = "tcp"
+      description = "http"
+    },
+    {
       from_port   = 30010
       to_port     = 30010
       protocol    = "tcp"
@@ -63,7 +69,7 @@ resource "aws_instance" "kind_instance" {
   user_data = <<EOF
 #!/bin/bash
 mkdir -p /home/ubuntu/.ssh
-echo "${file(local.ssh_key_path)}" >> /home/ubuntu/.ssh/authorized_keys
+echo "${file("${local.ssh_key_path}.pub")}" >> /home/ubuntu/.ssh/authorized_keys
     EOF
 
   lifecycle {
@@ -80,5 +86,5 @@ resource "local_file" "ansible_invt" {
     username = var.instance_user
     ssh_filename = var.sshkey_filename
   })
-  filename = "${path.module}/../../ansible/inventory.ini"
+  filename = "${path.module}/../../ansible/ec2/inventory.ini"
 }
