@@ -1,0 +1,56 @@
+- name: Install python venv package
+  become: true
+  apt:
+    name:
+      - python3-pip
+      - python3-venv
+    update_cache: true
+    state: present
+# these are req as ansible needs some pkgs to run k8s
+# in my case i cant connect to kind on ec2 so i have to install pkg on it 
+# otherwise i can use delegate_to: localhost by this ansible can use pkg on my local system if its connected to k8s 
+# but here lcoalmachine is not connected to k8s
+- name: Create k8s virtual environment
+  command: "python3 -m venv {{k8s_venv_path}}"
+  args:
+    creates: "{{k8s_venv_path}}"
+
+- name: Install kubernetes python libraries
+  pip:
+    name:
+      - kubernetes
+      - openshift
+      - pyyaml
+    virtualenv: "{{k8s_venv_path}}"
+
+
+
+# kubernetes ansible modules need python kubernetes libs
+# those libs are installed inside our virtualenv
+# so for below tasks we override ansible's python interpreter
+# otherwise ansible uses system python (/usr/bin/python3)
+# and kubernetes module import fails
+
+- name: Install gateway resources
+  block:
+
+    # kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
+    - name: Install gateway CRD
+      kubernetes.core.k8s:
+        src: https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
+        state: present
+
+    # helm install eg oci://docker.io/envoyproxy/gateway-helm --version v0.0.0-latest -n envoy-gateway-system --create-namespace
+    - name: Install envoy gateway
+      kubernetes.core.helm:
+        name: eg
+        chart_version: v0.0.0-latest
+        chart_ref: oci://docker.io/envoyproxy/gateway-helm
+        release_namespace: envoy-gateway-system
+        create_namespace: true
+        wait: true
+
+  vars:
+    # force ansible to use python from our virtualenv
+    # this python already has kubernetes/openshift/pyyaml installed
+    ansible_python_interpreter: "{{ k8s_venv_path }}/bin/python"

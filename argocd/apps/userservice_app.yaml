@@ -1,14 +1,14 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: order-service
+  name: user-service
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/hackerspider09/ms-ecommerce.git
     targetRevision: main
-    path: k8s/orderservice
+    path: k8s/userservice
   destination:
     server: https://kubernetes.default.svc
     namespace: ms-ecom

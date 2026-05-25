@@ -18,4 +18,5 @@ infra/terraform/ec2/inventory.ini
 # ansible
 infra/ansible/ec2/gather_facts.txt
 infra/ansible/ec2/inventory.ini
+**/env
 

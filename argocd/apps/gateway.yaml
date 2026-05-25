@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: order-service
+  name: envoy-gateway
   namespace: argocd
 spec:
   project: default
   source:
     repoURL: https://github.com/hackerspider09/ms-ecommerce.git
     targetRevision: main
-    path: k8s/orderservice
+    path: k8s/gateway
   destination:
     server: https://kubernetes.default.svc
-    namespace: ms-ecom
+    namespace: ms-gateway
   
   syncPolicy:
     automated: {}

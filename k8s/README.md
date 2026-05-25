@@ -13,12 +13,35 @@ helm install ngf oci://ghcr.io/nginx/charts/nginx-gateway-fabric --create-namesp
 
 ## install envoy (used in minikube)
 
+crd:
 kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
 
+install envoy:
 kubectl create -f https://github.com/envoyproxy/gateway/releases/latest/download/install.yaml
+or
+helm install eg oci://docker.io/envoyproxy/gateway-helm --version v0.0.0-latest -n envoy-gateway-system --create-namespace
+
 
 Step 4: Verify installation
 kubectl get pods -n envoy-gateway-system
+
+*****
+Remove Envoy Gateway Installation Completely
+
+helm uninstall eg -n envoy-gateway-system
+kubectl delete ns envoy-gateway-system
+
+Remove Gateway API CRDs 
+
+kubectl delete -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.1.0/standard-install.yaml
+
+
+<!-- by helm in ansible -->
+python3 -m venv ansible-venv
+source ~/ansible-venv/bin/activate
+which python
+pip install ansible kubernetes openshift pyyaml
+ansible-galaxy collection install kubernetes.core
 
 ## ARGO
 
