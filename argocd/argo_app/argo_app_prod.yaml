@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argo-app
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/hackerspider09/ms-ecommerce.git
+    targetRevision: main
+    path: argocd/apps/prod_gateway 
+    # dont add / as it will becom absolute path argo req relative
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+
+  syncPolicy:
+    automated: {}
