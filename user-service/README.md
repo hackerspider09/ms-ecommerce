@@ -33,12 +33,12 @@ uvicorn main:app --reload --port 8000
 
 | Method | Path | Auth | Description |
 |--------|------|------|-------------|
-| `POST` | `/api/register` | — | Register a new user |
-| `POST` | `/api/login` | — | Login and receive JWT |
+| `POST` | `/api/register` | - | Register a new user |
+| `POST` | `/api/login` | - | Login and receive JWT |
 | `GET` | `/api/profile` | JWT | Get current user's profile |
-| `GET` | `/api/info` | — | Get service hostname and IP |
-| `GET` | `/api/redis-status` | — | Check Redis connectivity |
-| `GET` | `/api/health` | — | Service health check |
+| `GET` | `/api/info` | - | Get service hostname and IP |
+| `GET` | `/api/redis-status` | - | Check Redis connectivity |
+| `GET` | `/api/health` | - | Service health check |
 
 ## Examples
 

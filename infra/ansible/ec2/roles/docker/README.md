@@ -294,7 +294,7 @@ repo: "deb ..."
 
 ## 10. Correct Ansible Way
 
-### Option 1 — Use `apt_repository`
+### Option 1 - Use `apt_repository`
 
 Oneliner (old way):
 

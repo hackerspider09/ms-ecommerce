@@ -23,5 +23,6 @@ spec:
                 ports: 
                   - name: http 
                     port: 80
-                    targetPort: 80
+                    # 10080 not 80 - Envoy shifts privileged ports by +10000 (see k8s/gateway/README.md)
+                    targetPort: 10080
                     nodePort: 30010
