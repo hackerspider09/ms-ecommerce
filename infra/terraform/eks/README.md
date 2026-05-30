@@ -115,3 +115,18 @@ resource "helm_release" "envoy_gateway" {
     helm_release.gateway_api
   ]
 }
+
+
+# Note:
+when you try to plan terraform it may give error as in kubenetes manifest provider used in install argo app it will require eks host and eks ca so it gives error as its not setu up yet it will get after running apply 
+
+```
+╷
+│ Error: Failed to construct REST client
+│ 
+│   with kubernetes_manifest.install_argo_app,
+│   on deploy_app.tf line 3, in resource "kubernetes_manifest" "install_argo_app":
+│    3: resource "kubernetes_manifest" "install_argo_app" {
+│ 
+│ cannot create REST client: no client config
+```

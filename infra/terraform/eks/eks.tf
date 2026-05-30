@@ -1,5 +1,11 @@
 
 
+# https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/eks_cluster_auth
+data "aws_eks_cluster_auth" "eks_auth_token" {
+  name = module.eks.cluster_name
+}
+
+
 # https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest#eks-managed-node-group
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
