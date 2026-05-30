@@ -1,0 +1,8 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+- frontend_app.yaml
+- orderservice_app.yaml
+- productservice_app.yaml
+- userservice_app.yaml

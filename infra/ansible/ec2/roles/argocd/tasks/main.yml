@@ -18,7 +18,7 @@
 
 - name: Copy application manifest  
   copy:
-    src: "../../../argocd/argo_app/argo_app.yaml"
+    src: "../../../argocd/argo_app/argo_app_{{dep_env}}.yaml"
     dest: "/tmp/argo_app.yaml"
 
 - name: Run argo application manifest

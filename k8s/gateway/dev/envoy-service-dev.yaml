@@ -1,0 +1,19 @@
+# This file will only used during development only
+# as by default envoy will use service with loadBalancer so to use nodeport this resource is created
+# this uses envoy gateway api extention : https://gateway.envoyproxy.io/v1.2/api/extension_types/#envoyproxy
+# for  how to use it: https://gateway.envoyproxy.io/v1.2/api/extension_types/#envoyproxy
+
+
+---
+apiVersion: gateway.envoyproxy.io/v1alpha1
+kind: EnvoyProxy
+metadata:
+  name: local-dev-service
+  namespace: envoy-gateway-system
+spec:
+  provider:
+    type: Kubernetes
+    kubernetes:
+      envoyService:
+        envoyService:
+          type: NodePort

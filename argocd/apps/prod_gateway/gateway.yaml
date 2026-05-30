@@ -8,7 +8,7 @@ spec:
   source:
     repoURL: https://github.com/hackerspider09/ms-ecommerce.git
     targetRevision: main
-    path: k8s/gateway
+    path: k8s/gateway/prod
   destination:
     server: https://kubernetes.default.svc
     namespace: ms-gateway
