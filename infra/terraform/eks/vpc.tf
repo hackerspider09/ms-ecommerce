@@ -3,7 +3,7 @@
 module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
 
-  name = "Terra-VPC"
+  name = "ms-ecom-eks-VPC"
   cidr = var.vpc_cidr
 
   azs             = ["us-east-1a", "us-east-1b"]

@@ -34,13 +34,13 @@ module "eks" {
 
   # EKS Managed Node Group(s)
   eks_managed_node_groups = {
-    example = {
+    ms_eom_nodes = {
       ami_type       = "AL2023_x86_64_STANDARD"
       instance_types = [var.instance_type]
 
-      min_size     = 1
-      max_size     = 3
-      desired_size = 1
+      min_size     = 1  # This is the lowest value an autoscaler is allowed to scale down to, Without an autoscaler, it doesn't do much.
+      max_size     = 4  # Upper limit for node group scaling (used by Cluster Autoscaler/Karpenter)
+      desired_size = 2  # Initial/current node count. Without an autoscaler, the node group stays at this size.
     }
   }
 
