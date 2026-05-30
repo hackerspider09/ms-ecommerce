@@ -16,3 +16,12 @@ spec:
     kubernetes:
       envoyService:
           type: NodePort
+          patch:
+            type: StrategicMerge
+            value:
+              spec: 
+                ports: 
+                  - name: http 
+                    port: 80
+                    targetPort: 80
+                    nodePort: 30001
