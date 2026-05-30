@@ -5,7 +5,7 @@ nodes:
   - role: control-plane
     image: kindest/node:v1.34.0
     extraPortMappings:
-      - containerPort: 80
+      - containerPort: 30001
         hostPort: 80
 
   # - role: worker
