@@ -89,7 +89,7 @@ resource "local_file" "ansible_invt" {
     ip = resource.aws_instance.kind_instance.public_ip
     username = var.instance_user
     ssh_filename = var.sshkey_filename
-    dep_env = var.deployment_env
+    deployment_env = var.deployment_env
   })
   filename = "${path.module}/../../ansible/ec2/inventory.ini"
 }

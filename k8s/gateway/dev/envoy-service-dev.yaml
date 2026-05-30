@@ -15,5 +15,4 @@ spec:
     type: Kubernetes
     kubernetes:
       envoyService:
-        envoyService:
           type: NodePort

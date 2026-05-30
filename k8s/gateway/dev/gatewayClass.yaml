@@ -12,3 +12,4 @@ spec:
     group: gateway.envoyproxy.io
     kind: EnvoyProxy
     name: local-dev-service
+    namespace: envoy-gateway-system

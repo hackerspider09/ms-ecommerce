@@ -9,30 +9,30 @@
     #     msg: "{{ ansible_facts.env.PWD }}"
 
       
-    # - name: Install common pkgs 
-    #   import_role:
-    #     name: common
+    - name: Install common pkgs 
+      import_role:
+        name: common
     
-    # - name: Install Docker
-    #   import_role: 
-    #     name: docker
+    - name: Install Docker
+      import_role: 
+        name: docker
 
-    # - name: Install Kind 
-    #   import_role:
-    #     name: kind 
+    - name: Install Kind 
+      import_role:
+        name: kind 
 
-    # - name: Install Kubectl  
-    #   import_role:
-    #     name: kubectl
+    - name: Install Kubectl  
+      import_role:
+        name: kubectl
 
-    # - name: Install helm  
-    #   import_role:
-    #     name: helm
+    - name: Install helm  
+      import_role:
+        name: helm
 
-    # - name: Create kind cluster 
-    #   import_role:
-    #     name: kindCluster 
-    #   become: false
+    - name: Create kind cluster 
+      import_role:
+        name: kindCluster 
+      become: false
       # explicitly added because i want kind to be present in normal user not root
       #  because kind writes kubeconfig to user's home directory
       # with become:true it gets created under /root/.kube/config and is inaccessible to normal user.
