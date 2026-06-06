@@ -12,6 +12,7 @@ infra/**/keys
 infra/**/.terraform
 infra/**/terraform.tfstate
 infra/**/terraform.tfstate.backup
+infra/**/.terraform.tfstate.lock.info
 infra/terraform/ec2/inventory.ini
 
 
