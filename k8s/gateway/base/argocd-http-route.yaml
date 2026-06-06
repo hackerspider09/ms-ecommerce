@@ -15,5 +15,5 @@ spec:
         value: /argocd
 
     backendRefs:
-    - name: argocd
+    - name: argocd-server
       port: 443
