@@ -1,28 +1,3 @@
-- name: Install python venv package
-  become: true
-  apt:
-    name:
-      - python3-pip
-      - python3-venv
-    update_cache: true
-    state: present
-# these are req as ansible needs some pkgs to run k8s
-# in my case i cant connect to kind on ec2 so i have to install pkg on it 
-# otherwise i can use delegate_to: localhost by this ansible can use pkg on my local system if its connected to k8s 
-# but here lcoalmachine is not connected to k8s
-- name: Create k8s virtual environment
-  command: "python3 -m venv {{k8s_venv_path}}"
-  args:
-    creates: "{{k8s_venv_path}}"
-
-- name: Install kubernetes python libraries
-  pip:
-    name:
-      - kubernetes
-      - openshift
-      - pyyaml
-    virtualenv: "{{k8s_venv_path}}"
-
 
 
 # kubernetes ansible modules need python kubernetes libs

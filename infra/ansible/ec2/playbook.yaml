@@ -9,9 +9,9 @@
     #     msg: "{{ ansible_facts.env.PWD }}"
 
       
-    # - name: Install common pkgs 
-    #   import_role:
-    #     name: common
+    - name: Install common pkgs 
+      import_role:
+        name: common
     
     # - name: Install Docker
     #   import_role: 
@@ -38,13 +38,18 @@
       # with become:true it gets created under /root/.kube/config and is inaccessible to normal user.
 
 
+# there it 2 ways to use env defined in gateway and argocd 
     - name: Install Gateway CRD and envoy 
       import_role: 
         name: gateway
       become: false
+      # here env is in block inside role
 
     - name: Install Argocd and initiate app deployment
       import_role:
         name: argocd
       become: false
+      # here its defined in vars instead of block
+      vars:
+        ansible_python_interpreter: "{{ k8s_venv_path }}/bin/python"
 
