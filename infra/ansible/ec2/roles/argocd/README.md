@@ -1,38 +1,10 @@
-Role Name
-=========
+#  How did i found data like how and why server.extr why --rootpath etc
 
-A brief description of the role goes here.
+https://argo-cd.readthedocs.io/en/latest/operator-manual/ingress/#argo-cd-server-and-ui-root-path-v153 here it mentioned if you want to acecss argo cd on non root path use --rootpath
+which is passed to container which container -> server argocd server this is cmd argument 
 
-Requirements
-------------
+if i am using helm i will use official argocd https://github.com/argoproj/argo-helm/blob/main/charts/argo-cd/
+in this go to values.yaml -> 1997 server: -> 2095 extraArgs this use to pass cmd line args to server conatiner and we can pss --rootpath value from here
+for confirmnation in templates/argocd-server/deployment.yaml -> at 78 you can see its using those args
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
-
-Role Variables
---------------
-
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
-
-Dependencies
-------------
-
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
-
-Example Playbook
-----------------
-
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
-
-License
--------
-
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+and there is another way https://argo-cd.readthedocs.io/en/latest/operator-manual/ingress/ by configmap create file of kind configmap and pass server.basehref and rootpath got info from : https://argo-cd.readthedocs.io/en/latest/operator-manual/argocd-cmd-params-cm-yaml/ see about basehref and rootpath

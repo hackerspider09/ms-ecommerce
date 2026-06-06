@@ -51,6 +51,6 @@
         wait: true
 
   vars:
-    # force ansible to use python from our virtualenv
+    # force ansible to use python from our virtual env
     # this python already has kubernetes/openshift/pyyaml installed
     ansible_python_interpreter: "{{ k8s_venv_path }}/bin/python"

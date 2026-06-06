@@ -77,3 +77,256 @@ spec:
 
 - **EnvoyProxy API reference:**
   https://gateway.envoyproxy.io/v1.2/api/extension_types/#envoyproxy
+
+
+
+# HTTP-ROute
+
+Let's use **your exact HTTPRoute** and think of it like a receptionist in an office.
+
+When a request comes to your AWS Load Balancer:
+
+```text
+http://alb.amazonaws.com/api/products/123
+```
+
+the Gateway receives it first.
+
+The **HTTPRoute** is the receptionist's rulebook:
+
+> "If someone asks for X, send them to Y."
+
+---
+
+## Structure of HTTPRoute
+
+```yaml
+spec:
+  parentRefs:
+  - name: ms-gateway
+
+  rules:
+  - matches:
+    ...
+    backendRefs:
+    ...
+```
+
+### parentRefs
+
+```yaml
+parentRefs:
+- name: ms-gateway
+```
+
+This means:
+
+> Attach this route to the Gateway named `ms-gateway`.
+
+Think:
+
+```text
+Internet
+    ↓
+AWS Load Balancer
+    ↓
+Gateway (ms-gateway)
+    ↓
+HTTPRoute (your rules)
+    ↓
+Services
+```
+
+---
+
+# Rule 1
+
+```yaml
+- matches:
+  - path:
+      type: PathPrefix
+      value: /
+
+  backendRefs:
+  - name: frontend-service
+    port: 5173
+```
+
+Meaning:
+
+```text
+If path starts with "/"
+send to frontend-service
+```
+
+Examples:
+
+```text
+/                     -> frontend
+/home                 -> frontend
+/products             -> frontend
+/about                -> frontend
+```
+
+This is your catch-all route.
+
+---
+
+# Rule 2
+
+```yaml
+- matches:
+  - path:
+      type: PathPrefix
+      value: /api/
+
+  backendRefs:
+  - name: userservice-service
+    port: 8000
+```
+
+Meaning:
+
+```text
+/api/* -> userservice
+```
+
+Examples:
+
+```text
+/api/login
+/api/register
+/api/profile
+```
+
+go to:
+
+```text
+userservice-service:8000
+```
+
+---
+
+# How Gateway chooses
+
+Suppose request is:
+
+```text
+/api/products/123
+```
+
+It matches:
+
+```text
+/
+```
+
+and
+
+```text
+/api/
+```
+
+and
+
+```text
+/api/products
+```
+
+all three!
+
+Gateway chooses the **most specific path**.
+
+Think of specificity like:
+
+```text
+/                  score 1
+/api/              score 2
+/api/products      score 3
+```
+
+Winner:
+
+```text
+/ api/products
+```
+
+So request goes to:
+
+```text
+productservice-service
+```
+
+---
+
+## Why backendRefs is outside matches
+
+
+```yaml
+- matches:
+  - path: /api/users
+  - path: /api/customers
+  - path: /api/accounts
+
+  backendRefs:
+  - name: userservice
+```
+
+This means:
+
+```text
+/api/users      \
+/api/customers   ---> userservice
+/api/accounts   /
+```
+
+All three paths go to the same backend.
+
+That's why the design is:
+
+```text
+matches  ---> backendRefs
+```
+
+rather than:
+
+```text
+path ---> backend
+path ---> backend
+path ---> backend
+```
+
+which would repeat the backend many times.
+
+---
+
+# Mental model
+
+Whenever you see a rule, read it as:
+
+```yaml
+- matches:
+    <conditions>
+
+  backendRefs:
+    <destination>
+```
+
+Translate it to English:
+
+> If the request matches these conditions, send it to this destination.
+
+For example:
+
+```yaml
+- matches:
+  - path:
+      value: /api/orders
+
+  backendRefs:
+  - name: orderservice
+```
+
+becomes:
+
+> If URL starts with `/api/orders`, send it to `orderservice`.

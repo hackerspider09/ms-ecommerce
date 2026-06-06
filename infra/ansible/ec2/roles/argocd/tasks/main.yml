@@ -10,7 +10,7 @@
 - name: Install ArgoCD 
   shell: |
     kubectl apply -n argocd --server-side --force-conflicts -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-
+# added --rootpath so argocd can available at /argocd instead of /
 
 - name: Wait for ArgoCD
   shell: |
