@@ -4,4 +4,5 @@ kind: Kustomization
 resources:
 - gateway.yaml
 - http-route.yaml
+- argocd-http-route.yaml
 - namespace.yaml
