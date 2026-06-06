@@ -20,6 +20,7 @@
     values:
       server:
         extraArgs:
+          - --insecure
           - --rootpath=/argocd
 # added --rootpath so argocd can available at /argocd instead of /
 # using helm instead of kubectl to install argocd with extraArgs
