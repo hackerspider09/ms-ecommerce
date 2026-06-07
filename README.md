@@ -6,6 +6,8 @@ A microservices-based e-commerce platform featuring authentication, product mana
 
 ## Architecture
 
+![data flow](assets/user-server.png)
+
 This project consists of 4 main services:
 
 - **Frontend**: React-based user interface.
@@ -14,6 +16,7 @@ This project consists of 4 main services:
 - **Order Service**: Java (Spring Boot) service for order management.
 
 ### Service Overview
+
 The frontend communicates directly with each microservice using their respective ports. No central gateway is required for local development.
 
 - **User Service**: [http://localhost:8000/api](http://localhost:8000/api)
@@ -25,14 +28,16 @@ The frontend communicates directly with each microservice using their respective
 
 ## Services & Tech Stack
 
-| Service | Language | Runtime | Database | Port |
-|---------|----------|---------|----------|------|
-| [User Service](user-service/README.md) | Python | 3.12 | PostgreSQL 16 (Port: 5432) | 8000 |
-| [Product Service](product-service/README.md) | Node.js | 20 (LTS) | MongoDB 7 (Port: 27017) | 3001 |
-| [Order Service](order-service/README.md) | Java | 21 | PostgreSQL 16 (Port: 5432) | 8082 |
-| [Frontend](frontend/README.md) | JavaScript | Node 20 | - | 5173 |
+
+| Service                                      | Language   | Runtime  | Database                   | Port |
+| ---------------------------------------------- | ------------ | ---------- | ---------------------------- | ------ |
+| [User Service](user-service/README.md)       | Python     | 3.12     | PostgreSQL 16 (Port: 5432) | 8000 |
+| [Product Service](product-service/README.md) | Node.js    | 20 (LTS) | MongoDB 7 (Port: 27017)    | 3001 |
+| [Order Service](order-service/README.md)     | Java       | 21       | PostgreSQL 16 (Port: 5432) | 8082 |
+| [Frontend](frontend/README.md)               | JavaScript | Node 20  | -                          | 5173 |
 
 ### Shared Infrastructure
+
 - **Redis 7** (Port: 6379): Used by User Service for session/cache status.
 
 ---
@@ -42,6 +47,7 @@ The frontend communicates directly with each microservice using their respective
 To run the full system locally, follow the [Running Order](#running-order) and ensure essential [Environment Variables](#environment-variables) are set.
 
 ### Running Order
+
 1. **Databases**: Start PostgreSQL (instances for User and Order), MongoDB, and Redis.
 2. **User Service**: Start after PostgreSQL and Redis are ready.
 3. **Product Service**: Start after MongoDB is ready.
@@ -53,6 +59,7 @@ To run the full system locally, follow the [Running Order](#running-order) and e
 ## Environment Variables
 
 ### User Service
+
 ```env
 DATABASE_URL=postgresql://user:password@localhost:5432/userdb
 REDIS_HOST=localhost
@@ -63,11 +70,13 @@ Optional:
 ```
 
 ### Product Service
+
 ```env
 MONGODB_URI=mongodb://localhost:27017/productdb
 ```
 
 ### Order Service
+
 ```env
 SPRING_DATASOURCE_URL=jdbc:postgresql://<host>:<port>/<database>
 SPRING_DATASOURCE_USERNAME=user
@@ -76,14 +85,15 @@ PRODUCT_SERVICE_URL=http://localhost:3001
 ```
 
 ### Frontend
+
 ```env
 VITE_USER_SERVICE_URL=http://localhost:8000
 VITE_PRODUCT_SERVICE_URL=http://localhost:3001
 VITE_ORDER_SERVICE_URL=http://localhost:8082
 ```
 
-
 ## PostgreSQL Note (Docker)
+
 - Postgres only creates the database on first initialization.
 - If the container (or volume) already existed before, then:
   - POSTGRES_DB=userdb is ignored
@@ -112,13 +122,12 @@ postgresql://postgres:password@postgres-db:5432/mydb
 postgresql://postgres:password@10.166.218.139:5432/mydb
 ```
 
-
-
 ---
 
 ## Testing & Data
 
 ### Run Service Tests
+
 ```bash
 # User Service
 cd user-service && pytest
@@ -131,6 +140,7 @@ cd order-service && ./mvnw test
 ```
 
 ### Seed Product Database
+
 ```bash
 cd product-service && npm run seed
 ```
