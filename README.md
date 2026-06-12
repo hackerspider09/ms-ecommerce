@@ -5,8 +5,10 @@ A microservices-based e-commerce platform featuring authentication, product mana
 ---
 
 ## Architecture
-
-![data flow](assets/user-server.png)
+### Sys arch
+![data flow](assets/application.png)
+### CICD Flow, infra provision
+![data flow](assets/CICD-flow.png)
 
 This project consists of 4 main services:
 
