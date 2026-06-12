@@ -21,4 +21,4 @@ infra/ansible/ec2/gather_facts.txt
 infra/ansible/ec2/inventory.ini
 **/env
 
-assets/**.drawio
+# assets/**.drawio
